@@ -70,7 +70,7 @@
                 </ul>
             </div>
             <aside class="notes">
-                今回初めて僕を見る方がほとんどだと思うので、まずは軽く自己紹介をします。
+                今回初めて私を見る方がほとんどだと思うので、まずは軽く自己紹介をします。
                 株式会社トップゲートに所属している、らこといいます。
                 好きなものはGoogleとお酒とアニメです。
                 最近は仕事でも趣味でもTypeScriptとGoしか書いてないです。
@@ -157,12 +157,21 @@
                 </li>
             </ul>
             <aside class="notes">
+                Angular2では独自のモジュールシステムはなくなって、
+                ES6 Modulesを使ってライブラリのエクスポートやインポートをするようになりました。
+                また、DIは型ベースになって引数の名前のtypoで動かなくて死ぬことはなくなりました。
+                公式ライブラリはng1のころと同じくAjax用のhttpやルーティング用のrouterなどが提供されていて、
+                サードパーティ製のライブラリを作る際のお手本がちゃんと用意されています。
+                それぞれをもうちょっと詳しくみていくと、
             </aside>
         </section>
 
         <section>
             <h2>Import Library</h2>
             <pre><code>import {Http} from 'angular2/http';</code></pre>
+            <aside class="notes">
+                例えばhttpパッケージを使うためには、まずライブラリのモジュールからクラスを読み込んで、
+            </aside>
         </section>
 
         <section>
@@ -171,7 +180,12 @@
 
 @Injectable()
 class SampleService {
-    constructor(private http: Http) {}
+    constructor(http: Http) {}
+}
+
+@Component({...})
+class MyApp {
+    constructor(service: SampleService) {}
 }
 
 bootstrap(MyApp, [
@@ -179,20 +193,37 @@ bootstrap(MyApp, [
     SampleService
 ]);
             </code></pre>
+            <aside class="notes">
+                読み込んだクラスをDIでコンポーネントから取得します。
+                これがAngular 2のライブラリの基本的な使い方で、自作する際もこの2段構成から外れないようにすると
+                ユーザーが混乱せずにすみます。
+            </aside>
         </section>
 
         <section>
             <h2>DI: Provider/Injector</h2>
             <span class="fragment"><code>MyApp(service: SampleService)</code> : Injector</span><br>
-            <span class="fragment">&uparrow;<br/><code>SampleService</code> : Provider</span><br>
+            <span class="fragment">&uparrow;<br/><code>bootstrap([SampleService])</code> : Provider</span><br>
             <span class="fragment">&uparrow;<br/><code>SampleService(http: Http)</code> : Injector</span><br>
-            <span class="fragment">&uparrow;<br/><code>HTTP_PROVIDERS</code> : Provider</span><br>
+            <span class="fragment">&uparrow;<br/><code>bootstrap(HTTP_PROVIDERS)</code> : Provider</span><br>
 
             <p>
                 <small class="fragment">
                     <a href="http://qiita.com/laco0416/items/61eed550d1f6070b36ab">Angular2のDIを知る - Qiita</a>
                 </small>
             </p>
+            <aside class="notes">
+                Angular 2のDIについて少し話しておくと、
+                DIはInjectorとProviderという2つのものがセットになって働きます。
+                先程のMyAppのコンストラクタにはSampleServiceがありました。
+                ここに入るインスタンスはbootstrap関数が引数にとったSampleServiceを使って提供されます。
+                このとき、MyAppがInjectorであり、bootstrap関数がProviderであると言います。
+                さらに、SampleServiceのコンストラクタにもHttpがありますが、
+                これはSampleServiceがProviderを提供していないので、その親であるMyAppのさらに親であるbootstrap関数が、
+                引数のHTTP_PROVIDERSを使って提供してます。
+                この関係も、InjectorとProviderです。
+                もっと詳しい話は僕のQiitaの記事を見てください。
+            </aside>
         </section>
 
         <section>
@@ -207,10 +238,34 @@ bootstrap(MyApp, [
                 <dt>upgrade</dt>
                 <dd>Adapter for ng1</dd>
             </dl>
+            <aside class="notes">
+                ここからは公式に提供されてるライブラリをひとつずつ見ていきます。
+                ng1と違うのはXHRの機能も外部化されているところですね。
+                upgradeパッケージに関してはこの後のいなばさんのセッションで解説があるはずなので、
+                今回は省いて、上の3つだけ取り上げていきます。
+            </aside>
         </section>
 
         <section>
             <h2 class="heading">http</h2>
+            <aside class="notes">
+                まずはhttpから。
+            </aside>
+        </section>
+
+        <section>
+            <h2>Setup</h2>
+            <pre><code>import {HTTP_PROVIDERS} from 'angular2/http';
+
+bootstrap(MyApp, [
+    HTTP_PROVIDERS
+]);
+            </code></pre>
+            <aside class="notes">
+                httpを使うためには必ずHTTP_PROVIDERSが必要です。
+                Angular2のDIをちゃんと理解していて、かつ特別な事情がある人以外は、
+                bootstrap内でプロバイドしてください。定型文だと思って良いです。
+            </aside>
         </section>
 
         <section>
@@ -220,6 +275,14 @@ bootstrap(MyApp, [
                 Shorthands for each methods<br>
                 <code>http.get()</code>, <code>http.post()</code>, ...
             </p>
+            <aside class="notes">
+                HTTP_PROVIDERSをプロバイダに追加することでHttpクラスがDI可能になります。
+                httpから提供されてるAPIは他にも結構あるのですが、
+                基本的なAjaxの実装をするだけであれば、使うのはHttpクラス1つだけです。
+                HttpクラスはシンプルにHTTPのリクエストを送るだけのクラスです。
+                request関数にはRequest型の引数を渡さないといけないんですが、
+                各メソッドごとの関数を使えばよくあるURLとオプションだけ渡す感じのAPIになります。
+            </aside>
         </section>
 
         <section>
@@ -240,13 +303,30 @@ bootstrap(MyApp, [
             <span class="fragment" data-fragment-index="4">
                 <code>http.request()</code> returns <code>Observable</code>!
             </span>
+            <aside class="notes">
+                使い方の例として、SampleServiceというHttp通信をするサービスクラスを実装します。
+                まずHttpをインポートします。
+                次に、クラスを定義しましょう。
+                そして、コンストラクタにHttp型の引数を取り、クラスにInjectableアノテーションを付けます。
+                Injectableは、「このクラスのコンストラクタはDIが必要だよ」というマーカーです。
+                最後にクラスにメソッドを定義しておしまいです。
+                JSONファイルをGETして結果のJSONをSample型にキャストして返すだけの処理です。
+                ただし、このfetch関数の戻り値はObservableなのがポイントです。
+                HttpクラスのメソッドはすべてObservableを返してきます。
+            </aside>
         </section>
 
         <section>
             <h2 class="heading">What's Observable?</h2>
+            <aside class="notes">
+                Observableって何？って人もいると思うので、少しだけ説明します
+            </aside>
         </section>
 
         <section data-background="img/rxjs_site.png">
+            <aside class="notes">
+                ObservableというのはReactiveXのRxJSというライブラリが提供するクラスです
+            </aside>
         </section>
 
         <section>
@@ -258,6 +338,14 @@ bootstrap(MyApp, [
                 <li><a href="http://www.slideshare.net/benlesh1/rxjs-indepth-angularconnect-2015">RxJS In-Depth - AngularConnect 2015</a></li>
                 <li><a href="http://slides.com/gerardsans/ng-nl-rxjs5#/">Introduction to RxJS 5 by Gerard Sans</a></li>
             </ul>
+            <aside class="notes">
+                ReactiveX、あるいはReactive-ExtensionsというプロジェクトはもともとC#から始まったのですが、
+                今ではたくさんの言語で実装されていて、JavaScript用にもRxJSが用意されています。
+                Observableというのはその中でも根幹のAPIで、シーケンシャルな非同期処理を行うための仕組みです。
+                連続したイベントを、まるでリストのように扱えるのが特徴です。
+                RxJSやObservableについては公式のドキュメントや、これまでのAngularのイベントでのスライドなどを見ればだいたいわかると思います。
+                Angular2はRxJSに依存しているので、Angular2を使う上ではObservableへの理解は必須です。勉強しましょう。
+            </aside>
         </section>
 
         <section>
@@ -276,10 +364,19 @@ export class MyApp {
     }</span>
 }
             </hl-code></pre>
+            <aside class="notes">
+                さっき作ったObservableを返すSampleServiceは、こんな感じでコンポーネント側で使います。
+                コンストラクタでSampleServiceをDI経由で取得し、
+                fetchの戻り値のObservableをsubscribeして、非同期的にsampleプロパティを更新します。
+                これがHttpパッケージの基本的な使い方です。
+            </aside>
         </section>
 
         <section>
             <h2 class="heading">router</h2>
+            <aside class="notes">
+                次にrouterについて解説します。
+            </aside>
         </section>
 
         <section>
@@ -291,6 +388,12 @@ export class MyApp {
                 <li>RouterLink</li>
                 <li>Router</li>
             </ul>
+            <aside class="notes">
+                Angular2のrouterはComponent Routerとも呼ばれ、
+                URLのパスと、コンポーネントを紐付けることでルーティングを行います。
+                Component Routerはng1用のルーティングライブラリのui-routerを参考に作られてます
+                routerパッケージを使う上での主な登場人物はこの4つです。それぞれ後で見ていきます
+            </aside>
         </section>
 
         <section>
@@ -306,6 +409,13 @@ bootstrap(App, [
     provide(APP_BASE_HREF, {useValue: "/"})
 ]);
             </code></pre>
+            <aside class="notes">
+                まずはrouterを使うための準備です。httpと同じように、RouterクラスをDIするためのROUTER_PROVIDERSをbootstrapに渡します。
+                さらに、html側でbaseタグを書いてない場合は、APP_BASE_HREFのプロバイダを追加する必要があります。
+                何故かと言うと、デフォルトだとルーティングのパスはハッシュバングを使わないhtml5のpushstateを使ったやつになるからです。
+                ちなみに、provide関数についてはちゃんと話すと長くなるので、第1引数の型をDI可能にする奴と思ってください。
+                さっきのDIのスライドに貼ったQiitaの記事に全部書いてるので、あれを読んでからAngular2始めてください。
+            </aside>
         </section>
 
         <section>
@@ -323,6 +433,10 @@ bootstrap(App, [
         {useClass: HashLocationStrategy})
 ]);
             </code></pre>
+            <aside class="notes">
+                もちろんpushstateを使わない、ハッシュバングを使ったルーティングもできます。
+                その際は、LocationStrategyをHashLocationStrategyに切り替える必要があります。
+            </aside>
         </section>
 
         <section>
@@ -338,6 +452,15 @@ bootstrap(App, [
 ])
 export class App {}
             </code></pre>
+            <aside class="notes">
+                次にルーティングの定義です。
+                angular1ではアプリケーションのconfig関数なんかでルーティングの設定を行いますが、
+                angular2ではコンポーネントに対して設定を行います。
+                ルーティングを行いたいコンポーネントに、RouteConfigアノテーションを付けて、
+                アノテーションの引数にルーティング定義を書いていきます。
+                ここでは/fooをFooComponentに、/barをBarComponentに紐付けています。
+                また、それぞれのルーティングの一意な名前も必要です。
+            </aside>
         </section>
 
         <section>
@@ -349,6 +472,11 @@ export class App {}
                 <li><code>useAsDefault</code></li>
                 <li><code>redirectTo</code></li>
             </ul>
+            <aside class="notes">
+                ルーティングで設定できる主なものはこの5つです。
+                useAsDefaultがtrueに指定されたものがある場合は、他のどのルーティング定義とも一致しない時に使われます。
+                redirectToを使うと任意のパスから別のルーティングにリダイレクトできます。
+            </aside>
         </section>
 
         <section>
@@ -367,6 +495,13 @@ export class App {}
     directives: [ROUTER_DIRECTIVES]
 })
             </code></pre>
+            <aside class="notes">
+                ルーティングの定義が終わったら、実際にナビゲーションを行います。
+                ルーティングによってURLと対応したコンポーネントは、router-outletという要素がある位置にロードされます。
+                また、aタグをナビゲーションに使うには、routerLinkというディレクティブを付けますが、
+                routerLinkはちょっと特殊な値を取ります。
+                この2つのディレクティブはROUTER_DIRECTIVESから提供されます。
+            </aside>
         </section>
 
         <section>
@@ -375,6 +510,12 @@ export class App {}
                 <li><code>ngView</code> in ng2 router</li>
                 <li>Nestable</li>
             </ul>
+            <aside class="notes">
+                router-outletはangular1のngRouteにおけるngViewに相当するディレクティブです。
+                ui-routerで言えばui-viewです。
+                ngViewとは違って、router-outletはネスト可能なので、
+                ルーティングでアタッチされたコンポーネント中でさらに入れ子のルーティングが行われても大丈夫です。
+            </aside>
         </section>
 
         <section>
@@ -383,29 +524,39 @@ export class App {}
                 <li>Modify &lt;a&gt; to router</li>
                 <li>
                     Navigation DSL <br>
-                    <span style="font-size: 1.0em">d<code>[routerLink]="['Foo']"</code> === <code>router.navigate(['Foo'])</code>
+                    <span style="font-size: 1.0em"><code>[routerLink]="['Foo']"</code> === <code>router.navigate(['Foo'])</code>
                     </span>
                 </li>
             </ul>
+            <aside class="notes">
+                routerLinkはui-routerでのui-srefにあたるディレクティブです。
+                aタグを拡張して、内部でrouterのAPIを呼び出してナビゲーションを行います。
+                routerLinkに与える値はDSLになっていて、
+                文字列中で配列の形でナビゲーション先を記述します。
+                この文字列は内部でnavigate関数に変換されます。
+                なんで配列になっているかというと、入れ子になったルーティングの場合、
+                ステートを積んでいくために1段ずつルーティングされるのですが、
+                その多段のナビゲーションを表現するためです。
+            </aside>
         </section>
 
-        <section>
-            <h2>Router Link / Router Outlet</h2>
-            <pre><hl-code>import {ROUTER_DIRECTIVES} from 'angular2/router'
+        <!--<section>-->
+            <!--<h2>Router Link / Router Outlet</h2>-->
+            <!--<pre><hl-code>import {ROUTER_DIRECTIVES} from 'angular2/router'-->
 
-@Component({
-    selector: 'my-app',
-    <span>template: `
-        &lt;ul&gt;
-            &lt;li&gt;&lt;a [routerLink]="['Foo']"&gt;Foo&lt;/a&gt;&lt;/li&gt;
-            &lt;li&gt;&lt;a [routerLink]="['Bar']"&gt;Bar&lt;/a&gt;&lt;/li&gt;
-        &lt;/ul&gt;
-        &lt;router-outlet&gt;&lt;/router-outlet&gt;
-    `</span>,
-    directives: [ROUTER_DIRECTIVES]
-})
-            </hl-code></pre>
-        </section>
+<!--@Component({-->
+    <!--selector: 'my-app',-->
+    <!--<span>template: `-->
+        <!--&lt;ul&gt;-->
+            <!--&lt;li&gt;&lt;a [routerLink]="['Foo']"&gt;Foo&lt;/a&gt;&lt;/li&gt;-->
+            <!--&lt;li&gt;&lt;a [routerLink]="['Bar']"&gt;Bar&lt;/a&gt;&lt;/li&gt;-->
+        <!--&lt;/ul&gt;-->
+        <!--&lt;router-outlet&gt;&lt;/router-outlet&gt;-->
+    <!--`</span>,-->
+    <!--directives: [ROUTER_DIRECTIVES]-->
+<!--})-->
+            <!--</hl-code></pre>-->
+        <!--</section>-->
 
         <section>
             <h2>Manual Navigation</h2>
@@ -421,10 +572,19 @@ export class App {
             <p>
                 Note: <code>navigate()</code> returns <b>Promise</b>!
             </p>
+            <aside class="notes">
+                aタグを使わずに、スクリプトでナビゲーションすることもできます。
+                DI経由でRouterクラスのインスタンスを取得すると、
+                navigate関数でrouterLinkと同じことができます。
+                ここで知っておくべきなのは、navigate関数の戻り値がPromiseであるということです
+            </aside>
         </section>
 
         <section>
             <h2>Why Promise?</h2>
+            <aside class="notes">
+                ということで、なぜnavigateがPromiseを返すのかという話です。
+            </aside>
         </section>
 
         <section>
@@ -438,22 +598,43 @@ export class App {
                     Called on the component before reused by router.</li>
             </ul>
             <p>
-                All hooks can return Promise for <b>deep-linking</b>.
+                All hooks can return Promise for <b>lazy-navigation</b>.
             </p>
+            <aside class="notes">
+                その前に、routerのライフサイクルについて話をします。
+                Angular2ではコンポーネントにOnInitやOnAfterViewCheckedなどのライフサイクル関数がありますが、
+                routerにも同じようにライフサイクルがあり、コンポーネントにそのメソッドを定義することで
+                routerからの呼び出しにフックすることができます。
+                routerが提供しているのはこの3つのライフサイクル関数で、
+                このどれもがPromiseを返せるようになっています。
+                このおかげで、簡単に遅延ナビゲーションを実装できるようになります。
+            </aside>
         </section>
 
         <section>
-            <h2>Deep-Linking</h2>
-            <img src="img/router-deep-linking.svg" alt="deep-linking" width="90%">
+            <h2>Lazy Navigation</h2>
+            <img src="img/router-lazy-navigation.svg" width="90%">
+            <aside class="notes">
+                navigate関数が呼び出されると、宛先のコンポーネントではonActivateが呼ばれます。
+                このonActivateとPromiseを使うと、画面の遷移時に非同期処理を行い、その終了を待つことができます。
+                例えば遷移先のコンポーネントでAjax通信して、結果が返ってきて描画に必要なデータが揃ってから遷移したり、
+                ページ遷移のアニメーションを挟んだり、柔軟なナビゲーションが可能です。
+            </aside>
         </section>
 
         <section>
             A little break.
+            <aside class="notes">
+                少し疲れてきたので、ちょっとだけ脱線して雑談っぽい話します。
+            </aside>
         </section>
 
         <section data-background="img/bigsite.jpg">
             <h2 class="heading">Comic Market 89</h2>
             <p>29-31 Dec 2015, Tokyo</p>
+            <aside class="notes">
+                何の話をするかというと、コミックマーケットの話です。
+            </aside>
         </section>
 
         <section>
@@ -463,6 +644,12 @@ export class App {
                 <li>I wrote "Ready for Angular2".</li>
                 <li>Now on sale: <a href="https://techbooster.booth.pm/items/178227">BOOTH</a>.</li>
             </ul>
+            <aside class="notes">
+                なんでコミケの話かというと、私が参加しているTechBoosterというサークルでJavaScriptoon 2という本を頒布したんですね。
+                これはWeb系の技術書なんですが、その中で私はReady for Angular2という章を書いたんですね。
+                Angular2を始める上で知っておくべきことなんかを書いたんですが、
+                ちなみにBOOTHというサイトで電子書籍版が販売中ですのでよかったら買ってください。
+            </aside>
         </section>
 
         <section>
@@ -471,28 +658,67 @@ export class App {
                 <li>At start: Alpha.46</li>
                 <li>At last: Beta.0</li>
             </ul>
+            <aside class="notes">
+                で、ここでちょっとクイズなんですが、この46 to 0の意味わかりますか？
+                まあ察しのいい方はわかるかもしれませんが、
+                これはJavaScriptoonの原稿の書き始めと書き終わりの間のバージョンの変化です。
+                つまり、書き始めにAlpha46だったのに、頒布時にはBeta.0だったんです。
+            </aside>
         </section>
 
         <section>
             <p>15 Nov Alpha.46<img src="img/log-1.png" alt=""></p>
             <p>5 Dec Alpha.47, 48<img src="img/log-2.png" alt=""></p>
             <p>9 Dec Alpha.50 <img src="img/log-3.png" alt=""></p>
+            <aside class="notes">
+                TechBoosterではGitHub上で原稿を管理しているのでちゃんとgitのログが残ってるんですよね。
+                初稿が上がったときがAlpha.46だったんですが、
+                それから半月後くらいにAlpha47,48と上がりました。ちなみにこの段階でもう一回目の締め切り過ぎてます。
+                そして4日後にAlpha.50に上がってます。コミットメッセージがつらさを物語ってます。
+            </aside>
         </section>
 
         <section>
             <p>10 Dec Alpha.51, 52<img src="img/log-4.png" alt=""></p>
             <p>23 Dec Beta.0<img src="img/log-5.png" alt=""></p>
             <p>31 Dec <br>C89! &#128124;</p>
+            <aside class="notes">
+                そして翌日にAlpha51,52にアップデートされ、
+                もう来ないだろうと思っていたら2週間後にBeta.0が来ました。
+                もう流石にコミケ1週間前なので印刷には間に合わず、電子書籍版だけ対応しました。
+            </aside>
         </section>
 
-        <section data-background="img/happy-breaking-changes.jpg"></section>
+        <section>
+            <img src="img/comike.jpg" height="600">
+            <aside class="notes">
+                当日はこんなタスキをかけて売りました
+            </aside>
+        </section>
+
+        <section data-background="img/happy-breaking-changes.jpg">
+            <aside class="notes">
+                まあ、Alpha版のプロダクトの本を書くのはヤバイ。ということですね。
+                それでもコミットログとかプルリクエストとか監視してたので、
+                次回のアップデートで死にそうな箇所は出来る限り影響が少ないようにサンプルコードを書いておく努力をしたおかげで、
+                リリース当日にすぐ原稿を直す流れは崩れなかったのでよかったなと思ってます。
+                とはいえ、消しても消してもGitHubのNotificationが消えない生活が待っているので
+                GitHub監視は用法用量を守ったほうが良いと思います。
+            </aside>
+        </section>
 
         <section>
             <h2 class="heading">Back to the topic</h2>
+            <aside class="notes">
+                ということで話をもとに戻して
+            </aside>
         </section>
 
         <section>
             <h2 class="heading">testing</h2>
+            <aside class="notes">
+                最後にtestingパッケージの話をします。
+            </aside>
         </section>
 
         <section>
@@ -503,6 +729,11 @@ export class App {
                 <li><code>angular2/http/testing</code></li>
                 <li><code>angular2/router/testing</code></li>
             </ul>
+            <aside class="notes">
+                testingパッケージはこの3つのモジュールを提供していて、
+                コア機能のテスト、httpのテスト、routerのテストでモジュールが分かれています。
+                それぞれに依存関係はなく、個別に使用可能です。
+            </aside>
         </section>
 
         <section>
@@ -513,6 +744,15 @@ export class App {
                 <li>Jasmine wrapper for ng2</li>
                 <li>Easy to use DI</li>
             </ul>
+            <aside class="notes">
+                まずコア機能のテストに使えるangular2/testingについて。
+                このモジュールにはアプリケーションやコンポーネントの単位でのテストがしやすくなるユーティリティがいくつも入ってます。
+                ところがこのモジュール、内部はJasmineのラッパーになっていて、
+                Jasmineと一緒にしか使えません。
+                アサーションなどの都合でMochaを使いたい場合などは、今の段階では残念ながらこのモジュールは使えません。
+                一応Mochaを使わせてくれというIssueも立ってるので、そのうち対応されるのではないかと思います。
+                ただJasmineでいいよという場合にはとても便利だと思います。
+            </aside>
         </section>
 
         <section>
@@ -525,6 +765,11 @@ it('...', inject([SomeClass], (someInstance) => {
     expect(...);
 });
             </code></pre>
+            <aside class="notes">
+                testing周りはまだ全然ドキュメントがなくて、APIリファレンスとソースを読んで使い方を察する日々なのですが、
+                例えば簡単にDIが再現できるinject関数はこんな感じに使えます。
+                本当にAPIは多いのにドキュメントがないのでtesting周りはもっと調査してどこかしらで公開します。
+            </aside>
         </section>
 
         <section>
@@ -534,6 +779,12 @@ it('...', inject([SomeClass], (someInstance) => {
                 <li><b>Doesn't depend on Jasmine</b> &#128516;</li>
                 <li>provides <code>MockBackend</code></li>
             </ul>
+            <aside class="notes">
+                次はhttp用のtestingです。
+                このモジュールはシンプルで、MockBackendというクラスを提供して、
+                Httpクラスのレスポンスをモックできるようにします。
+                また、これはJasmineなど他のライブラリには依存してないです。
+            </aside>
         </section>
 
         <section>
@@ -557,6 +808,19 @@ bootstrap(MyApp, [
     SampleService
 ]);
             </hl-code></pre>
+            <aside class="notes">
+                MockBackendを使ってURLごとにレスポンスを差し替える方法を解説します。
+                まずはインポート文とbootstrap関数を書きます。
+                次に、BaseRequestOptionsとMockBackendをprovideします。
+                この2つはHttpクラスを差し替えるのに必要なクラスです
+                そして次にHttpをprovideします。
+                useFactoryを使ってMockBackendとBaseRequestOptionsを取得しつつ
+                Httpクラスのインスタンスを生成して返します。
+                これで、SampleServiceはここで返したHttpを使うようになります。
+                このままでは何も返さないバックエンドなので、
+                data.jsonへのリクエストだった時にモックレスポンスを返します。
+                これがMockBackendの使い方です。
+            </aside>
         </section>
 
         <section>
@@ -565,6 +829,12 @@ bootstrap(MyApp, [
                 <li>Mock routing and spy changes of state</li>
                 <li>Example is not yet &#128546;</li>
             </ul>
+            <aside class="notes">
+                最後はrouter/testingなのですが、
+                MockLocationStrategyとSpyLocationという
+                たった2つしかクラスを提供してないんですがその2つの使い方がさっぱりわからないです。
+                これも早くソースを読んで使い方を調べるつもりです。
+            </aside>
         </section>
 
         <section>
@@ -575,6 +845,18 @@ bootstrap(MyApp, [
                 <li>Router and Promise</li>
                 <li>Testing packages</li>
             </ul>
+            <aside class="notes">
+                というわけで長々と話しましたが、まとめとしては、
+                ES6 Modulesとしてライブラリを読み込むこと、
+                HttpがObservableを利用していること、
+                RouterがPromiseを利用していること、
+                Testing用のパッケージがあること
+                を覚えてもらえばいいかなと思います。
+                まだBeta版なので、ライブラリの仕様をガッツリ覚えても
+                これから改善されて変わってしまう部分もあると思います。
+                BreakingChangeに負けないようにするためにも、
+                APIを一つ一つ覚えるよりも、全体の思想と、設計の方針を理解しておくほうが良いと思います。
+            </aside>
         </section>
 
         <section>
@@ -583,6 +865,9 @@ bootstrap(MyApp, [
             <p>
                 Are you lovin' Google? Let's work together!
             </p>
+            <aside class="notes">
+                最後にWe are hiringということで、グーグル大好きな方はぜひトップゲートに来てください。
+            </aside>
         </section>
 
         <section class="deck-slide">
@@ -591,6 +876,9 @@ bootstrap(MyApp, [
                 <img src="img/laco.png">
                 <p>@laco0416</p>
             </div>
+            <aside class="notes">
+                以上です。ありがとうございました。
+            </aside>
         </section>
     </div>
 
