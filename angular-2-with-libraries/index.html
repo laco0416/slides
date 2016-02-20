@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Angular 2 With Libraries</title>
+
+    <meta name="description" content="laco0416's slide at ng2Curry#1">
+    <meta name="author" content="laco0416">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        <section data-background="img/shield-large.svg" class="deck-slide">
+            <hgroup>
+                <h1 style="font-size: 3em;">Angular 2 With Libraries</h1>
+            </hgroup>
+            <div class="profile">
+                <img src="img/laco.png">
+                <p><a href="https://twitter.com/laco0416">@laco0416</a> <a href="http://lig.connpass.com/event/26115/">#ng2Curry</a><br>23 Feb 2016</p>
+            </div>
+            <aside class="notes">
+                Angular好きの皆さんこんばんは。
+                今日はAngular2の公式ライブラリの話をします。
+                Ajax用のhttpパッケージやルーティング用のrouterパッケージなど、
+                具体的な使い方も含めて、そこそこ詳しく解説していこうと思います。
+                よろしくお願いします。
+            </aside>
+        </section>
+
+        <section class="deck-slide">
+            <h2>About me</h2>
+            <div>
+                <img src="img/laco.png" alt="laco">
+                <ul style="vertical-align: top">
+                    <li>TOPGATE, Inc. <img src="img/topgate.png" width="200" alt="topgate" style="vertical-align: top"></li>
+                    <li>I &#128150; Google, &#127866;, Anime</li>
+                    <li>TypeScript/Golang</li>
+                    <li><a href="https://ng2-info.github.io">Angular2 Info</a></li>
+                </ul>
+            </div>
+            <aside class="notes">
+                今回初めて僕を見る方がほとんどだと思うので、まずは軽く自己紹介をします。
+                株式会社トップゲートに所属している、らこといいます。
+                好きなものはGoogleとお酒とアニメです。
+                最近は仕事でも趣味でもTypeScriptとGoしか書いてないです。
+                昔は1年間位Dart書いてました。もしDartやってた方いたら懇親会でお話しましょう。
+                あと、今年の頭からAngular2 Infoというブログを運営してます。
+                リリース情報とか、イベント情報とか、面白い記事とか、
+                毎日Angular2ウォッチして出てきたものを紹介してます。
+            </aside>
+        </section>
+
+        <section>
+            <h2 class="headline">AngularJS with Libraries</h2>
+            <aside class="notes">
+                それでは本題に入ります。
+                まずはAngular 2の話をする前に、少しだけAngular 1のことを振り返ってみます。
+                npmでAngular 1のライブラリがどれくらいあるのか雑に調べてみると
+            </aside>
+        </section>
+
+        <section data-background-color="#FFF">
+            <img src="img/npm_search_angular.png" alt="angular">
+            <p style="color: #0b97c4">
+                <small>npm search 'angular'</small>
+            </p>
+            <aside class="notes">
+                angularが付いたパッケージがだいたい5900個
+            </aside>
+        </section>
+
+        <section data-background-color="#FFF">
+            <img src="img/npm_search_ng.png" alt="angular">
+            <p style="color: #0b97c4">
+                <small>npm search 'ng'</small>
+            </p>
+            <aside class="notes">
+                ngが付いたパッケージがだいたい2400個で、合計8500個くらいあるみたいです。
+                これはnpm上でしか調べてないので、bowerも含めたらまあ1万は超えるんじゃないかなと思います。
+            </aside>
+        </section>
+
+        <section>
+            <h2>AngularJS Library</h2>
+            <ul>
+                <li>Module system: <code>angular.module()</code></li>
+                <li>String-based DI (<code>"$http"</code>)</li>
+                <li>Official Libraries
+                    <ul>
+                        <li>ngResource</li>
+                        <li>ngRoute</li>
+                        <li>ngMock</li>
+                    </ul>
+                    <span>&rightarrow; Good examples to make your library.</span>
+                </li>
+            </ul>
+            <aside class="notes">
+                なぜこんなにライブラリが多いのか、という理由を考えてみたのですが、
+                まずはモジュールシステムがあること。angular.module関数で
+                ライブラリをモジュールとしてまとめることができるので、配布や導入が楽なのが1つ目かなと。
+                次にDIですね。
+                標準のAPIも大半がDI経由なので、標準APIとライブラリのAPIで呼び出し方にあまり差がないのも導入しやすさの要因でしょう。
+                あとは公式ライブラリがいくつもあるので、ライブラリを作る時のお手本が用意されてるのも
+                ライブラリが多い理由かなと。
+            </aside>
+        </section>
+
+        <section>
+            <h2>In Angular 2...?</h2>
+            <aside class="notes">
+                そういう視点でAngular 2のライブラリ事情を見てみますと、
+            </aside>
+        </section>
+
+        <section>
+            <h2>Angular 2 Library</h2>
+            <ul>
+                <li>ES6 Modules (<code>import/export</code>)</li>
+                <li>Type-based DI</li>
+                <li>Official Libraries
+                    <ul>
+                        <li>http</li>
+                        <li>router</li>
+                        <li>testing</li>
+                    </ul>
+                </li>
+            </ul>
+            <aside class="notes">
+            </aside>
+        </section>
+
+        <section>
+            <h2>Import Library</h2>
+            <pre><code>import {Http} from 'angular2/http';</code></pre>
+        </section>
+
+        <section>
+            <h2>Type based DI</h2>
+            <pre><code>import {HTTP_PROVIDERS} from 'angular2/http';
+
+@Injectable()
+class SampleService {
+    constructor(private http: Http) {}
+}
+
+bootstrap(MyApp, [
+    HTTP_PROVIDERS,
+    SampleService
+]);
+            </code></pre>
+        </section>
+
+        <section>
+            <h2>DI: Provider/Injector</h2>
+            <span class="fragment"><code>MyApp(service: SampleService)</code> : Injector</span><br>
+            <span class="fragment">&uparrow;<br/><code>SampleService</code> : Provider</span><br>
+            <span class="fragment">&uparrow;<br/><code>SampleService(http: Http)</code> : Injector</span><br>
+            <span class="fragment">&uparrow;<br/><code>HTTP_PROVIDERS</code> : Provider</span><br>
+
+            <p>
+                <small class="fragment">
+                    <a href="http://qiita.com/laco0416/items/61eed550d1f6070b36ab">Angular2のDIを知る - Qiita</a>
+                </small>
+            </p>
+        </section>
+
+        <section>
+            <h2>Official Libraries</h2>
+            <dl>
+                <dt>http</dt>
+                <dd>Ajax, Streaming(WIP)</dd>
+                <dt>router</dt>
+                <dd>Client-side URL Routing</dd>
+                <dt>testing</dt>
+                <dd>Utilities for testing</dd>
+                <dt>upgrade</dt>
+                <dd>Adapter for ng1</dd>
+            </dl>
+        </section>
+
+        <section>
+            <h2 class="heading">http</h2>
+        </section>
+
+        <section>
+            <h2>Http class</h2>
+            <pre><code>http.request(request, options): Observable&lt;Response&gt;</code></pre>
+            <p>
+                Shorthands for each methods<br>
+                <code>http.get()</code>, <code>http.post()</code>, ...
+            </p>
+        </section>
+
+        <section>
+            <h2>Usage</h2>
+            <pre><hl-code style="font-size: 1.2em;">
+                <span class="fragment" data-fragment-index="0">import {Http} from 'angular2/http';</span>
+
+                <span class="fragment" data-fragment-index="2">@Injectable()</span>
+                <span class="fragment" data-fragment-index="1">class SampleService {
+                    constructor(<span class="fragment" data-fragment-index="2">private http: Http</span>) {}
+
+                    <span class="fragment" data-fragment-index="3">fetch(): Observable&lt;Sample&gt; {
+                        return this.http.get("./data.json")
+                            .map(res=>res.json() as Sample);
+                    }</span>
+                }</span>
+            </hl-code></pre>
+            <span class="fragment" data-fragment-index="4">
+                <code>http.request()</code> returns <code>Observable</code>!
+            </span>
+        </section>
+
+        <section>
+            <h2 class="heading">What's Observable?</h2>
+        </section>
+
+        <section data-background="img/rxjs_site.png">
+        </section>
+
+        <section>
+            <img src="img/rxjs.png" height="200">
+            <h2>ReactiveX/RxJS</h2>
+            <p>RxJS provides <code>Observable</code> for reactive programming.</p>
+            <ul style="font-size: 0.5em">
+                <li><a href="http://reactivex.io/documentation/observable.html">ReactiveX - Observable</a></li>
+                <li><a href="http://www.slideshare.net/benlesh1/rxjs-indepth-angularconnect-2015">RxJS In-Depth - AngularConnect 2015</a></li>
+                <li><a href="http://slides.com/gerardsans/ng-nl-rxjs5#/">Introduction to RxJS 5 by Gerard Sans</a></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Observable in Component</h2>
+            <pre><hl-code>@Component({
+    selector: 'my-app',
+    template: '{{ sample.someProp }}',
+})
+export class MyApp {
+    <span>private sample: Sample = {};
+    constructor(service: SampleService) {
+      service.fetch()
+        .subscribe((sample) => {
+          this.sample = sample;
+        });
+    }</span>
+}
+            </hl-code></pre>
+        </section>
+
+        <section>
+            <h2 class="heading">router</h2>
+        </section>
+
+        <section>
+            <h2>Component Router</h2>
+            <p>provides URL-Component Mapping for SPA.</p>
+            <ul>
+                <li>RouteConfig</li>
+                <li>RouterOutlet</li>
+                <li>RouterLink</li>
+                <li>Router</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Setup</h2>
+            <pre><code>import {provide} from 'angular2/core';
+import {
+    ROUTER_PROVIDERS,
+    APP_BASE_HREF
+} from 'angular2/router'
+
+bootstrap(App, [
+    ROUTER_PROVIDERS,
+    provide(APP_BASE_HREF, {useValue: "/"})
+]);
+            </code></pre>
+        </section>
+
+        <section>
+            <h2>Setup (Hash)</h2>
+            <pre><code>import {provide} from 'angular2/core';
+import {
+    ROUTER_PROVIDERS,
+    LocationStrategy,
+    HashLocationStrategy
+} from 'angular2/router'
+
+bootstrap(App, [
+    ROUTER_PROVIDERS,
+    provide(LocationStrategy,
+        {useClass: HashLocationStrategy})
+]);
+            </code></pre>
+        </section>
+
+        <section>
+            <h2>Route Definition</h2>
+            <pre><code>import {RouteConfig} from 'angular2/router'
+
+@Component({
+    ...
+})
+@RouteConfig([
+    {path: '/foo', component: FooComponent, name:'Foo'},
+    {path: '/bar', component: BarComponent, name:'Bar'}
+])
+export class App {}
+            </code></pre>
+        </section>
+
+        <section>
+            <h2>Route Definition Properties</h2>
+            <ul>
+                <li><code>path</code></li>
+                <li><code>component</code></li>
+                <li><code>name</code></li>
+                <li><code>useAsDefault</code></li>
+                <li><code>redirectTo</code></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Navigation</h2>
+            <pre><code>import {ROUTER_DIRECTIVES} from 'angular2/router'
+
+@Component({
+    selector: 'my-app',
+    template: `
+        <ul>
+            <li>&lt;a [routerLink]="['Foo']"&gt;Foo&lt;/a&gt;</li>
+            <li>&lt;a [routerLink]="['Bar']"&gt;Bar&lt;/a&gt;</li>
+        </ul>
+        <router-outlet></router-outlet>
+    `,
+    directives: [ROUTER_DIRECTIVES]
+})
+            </code></pre>
+        </section>
+
+        <section>
+            <h2>&lt;router-outlet&gt;</h2>
+            <ul>
+                <li><code>ngView</code> in ng2 router</li>
+                <li>Nestable</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>routerLink</h2>
+            <ul>
+                <li>Modify &lt;a&gt; to router</li>
+                <li>
+                    Navigation DSL <br>
+                    <span style="font-size: 1.0em">d<code>[routerLink]="['Foo']"</code> === <code>router.navigate(['Foo'])</code>
+                    </span>
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Router Link / Router Outlet</h2>
+            <pre><hl-code>import {ROUTER_DIRECTIVES} from 'angular2/router'
+
+@Component({
+    selector: 'my-app',
+    <span>template: `
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a [routerLink]="['Foo']"&gt;Foo&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a [routerLink]="['Bar']"&gt;Bar&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;router-outlet&gt;&lt;/router-outlet&gt;
+    `</span>,
+    directives: [ROUTER_DIRECTIVES]
+})
+            </hl-code></pre>
+        </section>
+
+        <section>
+            <h2>Manual Navigation</h2>
+            <pre><code>import {Router} from 'angular2/router'
+export class App {
+    constructor(private router: Router){}
+
+    goToFoo() {
+        this.router.navigate(['Foo']);
+    }
+}
+            </code></pre>
+            <p>
+                Note: <code>navigate()</code> returns <b>Promise</b>!
+            </p>
+        </section>
+
+        <section>
+            <h2>Why Promise?</h2>
+        </section>
+
+        <section>
+            <h2>Router LifeCycle</h2>
+            <ul>
+                <li><code>routerOnActivate</code><br>
+                    Called on the component before activated by router.</li>
+                <li><code>routerOnDeactivate</code><br>
+                    Called on the component before deactivated by router.</li>
+                <li><code>routerOnReuse</code><br>
+                    Called on the component before reused by router.</li>
+            </ul>
+            <p>
+                All hooks can return Promise for <b>deep-linking</b>.
+            </p>
+        </section>
+
+        <section>
+            <h2>Deep-Linking</h2>
+            <img src="img/router-deep-linking.svg" alt="deep-linking" width="90%">
+        </section>
+
+        <section>
+            A little break.
+        </section>
+
+        <section data-background="img/bigsite.jpg">
+            <h2 class="heading">Comic Market 89</h2>
+            <p>29-31 Dec 2015, Tokyo</p>
+        </section>
+
+        <section>
+            <h2>TechBooster/JavaScriptoon 2</h2>
+            <img src="img/scriptoon.png" alt="" width="60%">
+            <ul style="vertical-align: top">
+                <li>I wrote "Ready for Angular2".</li>
+                <li>Now on sale: <a href="https://techbooster.booth.pm/items/178227">BOOTH</a>.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 class="heading">46 to 0</h2>
+            <ul class="fragment">
+                <li>At start: Alpha.46</li>
+                <li>At last: Beta.0</li>
+            </ul>
+        </section>
+
+        <section>
+            <p>15 Nov Alpha.46<img src="img/log-1.png" alt=""></p>
+            <p>5 Dec Alpha.47, 48<img src="img/log-2.png" alt=""></p>
+            <p>9 Dec Alpha.50 <img src="img/log-3.png" alt=""></p>
+        </section>
+
+        <section>
+            <p>10 Dec Alpha.51, 52<img src="img/log-4.png" alt=""></p>
+            <p>23 Dec Beta.0<img src="img/log-5.png" alt=""></p>
+            <p>31 Dec <br>C89! &#128124;</p>
+        </section>
+
+        <section data-background="img/happy-breaking-changes.jpg"></section>
+
+        <section>
+            <h2 class="heading">Back to the topic</h2>
+        </section>
+
+        <section>
+            <h2 class="heading">testing</h2>
+        </section>
+
+        <section>
+            <h2>testing package</h2>
+            <p>provides 3 modules</p>
+            <ul>
+                <li><code>angular2/testing</code></li>
+                <li><code>angular2/http/testing</code></li>
+                <li><code>angular2/router/testing</code></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2><code>angular2/testing</code></h2>
+            <ul>
+                <li>Library for unit testing ng2 app</li>
+                <li><b>Depends on Jasmine</b> &#128553;</li>
+                <li>Jasmine wrapper for ng2</li>
+                <li>Easy to use DI</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>testing/inject</h2>
+            <pre><code>beforeEach(inject([SomeClass], (someInstance) => {
+    ...
+}));
+it('...', inject([SomeClass], (someInstance) => {
+    someInstance.doSomething();
+    expect(...);
+});
+            </code></pre>
+        </section>
+
+        <section>
+            <h2><code>angular2/http/testing</code></h2>
+            <ul>
+                <li>Mock library for <code>angular2/http</code></li>
+                <li><b>Doesn't depend on Jasmine</b> &#128516;</li>
+                <li>provides <code>MockBackend</code></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Hijack <code>Http</code> Injection</h2>
+            <pre><hl-code style="font-size: 1.1em">import {Http, BaseRequestOptions, Response} from 'angular2/http';
+import {MockBackend} from 'angular2/http/testing';
+bootstrap(MyApp, [
+    <span class="fragment" data-fragment-index="1">BaseRequestOptions,
+    MockBackend,</span>
+    <span class="fragment" data-fragment-index="2">provide(Http, {
+        <span class="fragment" data-fragment-index="3">useFactory: (backend, defaultOptions) => {
+            backend.connections.subscribe((c) => {
+                <span class="fragment" data-fragment-index="4">if (c.request.url === "./data.json") {
+                    c.mockRespond(new Response({body: {foo: "Mocked"}}));
+                }</span>
+            });
+            return new Http(backend, defaultOptions);
+        },
+        deps: [MockBackend, BaseRequestOptions]</span>
+    }),</span>
+    SampleService
+]);
+            </hl-code></pre>
+        </section>
+
+        <section>
+            <h2><code>angular2/router/testing</code></h2>
+            <ul>
+                <li>Mock routing and spy changes of state</li>
+                <li>Example is not yet &#128546;</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Summary</h2>
+            <ul>
+                <li>Angular2 can load libraries as ES6 Modules.</li>
+                <li>Http and Observable</li>
+                <li>Router and Promise</li>
+                <li>Testing packages</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>We're hiring!</h2>
+            <img src="img/topgate.png" alt="topgate">
+            <p>
+                Are you lovin' Google? Let's work together!
+            </p>
+        </section>
+
+        <section class="deck-slide">
+            <h1 style="margin-top: 2em;">Thanks!</h1>
+            <div style="margin-left: 0em;!important" class="profile">
+                <img src="img/laco.png">
+                <p>@laco0416</p>
+            </div>
+        </section>
+    </div>
+
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+            {
+                src: 'lib/js/classList.js', condition: function () {
+                return !document.body.classList;
+            }
+            },
+            {
+                src: 'plugin/markdown/marked.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src: 'plugin/markdown/markdown.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                hljs.initHighlightingOnLoad();
+            }
+            },
+            {src: 'plugin/zoom-js/zoom.js', async: true},
+            {src: 'plugin/notes/notes.js', async: true}
+        ]
+    });
+
+</script>
+
+</body>
+</html>
