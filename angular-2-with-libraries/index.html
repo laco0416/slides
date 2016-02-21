@@ -87,28 +87,6 @@
             <aside class="notes">
                 それでは本題に入ります。
                 まずはAngular 2の話をする前に、少しだけAngular 1のことを振り返ってみます。
-                npmでAngular 1のライブラリがどれくらいあるのか雑に調べてみると
-            </aside>
-        </section>
-
-        <section data-background-color="#FFF">
-            <img src="img/npm_search_angular.png" alt="angular">
-            <p style="color: #0b97c4">
-                <small>npm search 'angular'</small>
-            </p>
-            <aside class="notes">
-                angularが付いたパッケージがだいたい5900個
-            </aside>
-        </section>
-
-        <section data-background-color="#FFF">
-            <img src="img/npm_search_ng.png" alt="angular">
-            <p style="color: #0b97c4">
-                <small>npm search 'ng'</small>
-            </p>
-            <aside class="notes">
-                ngが付いたパッケージがだいたい2400個で、合計8500個くらいあるみたいです。
-                これはnpm上でしか調べてないので、bowerも含めたらまあ1万は超えるんじゃないかなと思います。
             </aside>
         </section>
 
@@ -127,13 +105,36 @@
                 </li>
             </ul>
             <aside class="notes">
-                なぜこんなにライブラリが多いのか、という理由を考えてみたのですが、
+                Angular1におけるライブラリというものについておさらいすると、
                 まずはモジュールシステムがあること。angular.module関数で
-                ライブラリをモジュールとしてまとめることができるので、配布や導入が楽なのが1つ目かなと。
-                次にDIですね。
-                標準のAPIも大半がDI経由なので、標準APIとライブラリのAPIで呼び出し方にあまり差がないのも導入しやすさの要因でしょう。
-                あとは公式ライブラリがいくつもあるので、ライブラリを作る時のお手本が用意されてるのも
-                ライブラリが多い理由かなと。
+                ライブラリをモジュールとしてまとめることができますね。
+                次がDIで、ライブラリが提供するインスタンスをDI経由で受け取れるってのはけっこう重要で、
+                何故かというと標準のAPIも大半がDI経由なので、ライブラリを使ってもソースコードが特殊にならないってのがあります。
+                あとは公式ライブラリがいくつもあるので、ライブラリを作る時のお手本が用意されてるというのがあります。
+                これがAngular1のライブラリ開発を活発にした要因だと思っていて、
+                どう作ると使いやすいか、という設計のお手本があるのは重要だと思ってます。
+            </aside>
+        </section>
+
+        <section data-background-color="#FFF">
+            <img src="img/npm_search_angular.png" alt="angular">
+            <p style="color: #0b97c4">
+                <small>npm search 'angular'</small>
+            </p>
+            <aside class="notes">
+                で、実際にnpmでAngular 1のライブラリがどれくらいあるのか調べてみると
+                angularが付いたパッケージがだいたい5900個
+            </aside>
+        </section>
+
+        <section data-background-color="#FFF">
+            <img src="img/npm_search_ng.png" alt="angular">
+            <p style="color: #0b97c4">
+                <small>npm search 'ng'</small>
+            </p>
+            <aside class="notes">
+                ngが付いたパッケージがだいたい2400個で、合計8500個くらいあるみたいです。
+                これはnpm上でしか調べてないので、bowerも含めたらまあ1万は超えるんじゃないかなと思います。
             </aside>
         </section>
 
