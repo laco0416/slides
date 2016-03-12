@@ -1,0 +1,902 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Sample</title>
+
+    <meta name="description" content="example slide">
+    <meta name="author" content="laco0416">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        <section class="deck-slide">
+            <hgroup>
+                <h1 style="font-size: 1.8em;">Angular 2の失敗しない始め方</h1>
+                <span>How to get happy Angular days</span>
+            </hgroup>
+            <div class="profile">
+                <img src="img/laco.png">
+                <p>
+                    Suguru Inatomi <a href="https://twitter.com/laco0416" target="_blank">@laco0416</a><br>
+                    <span>ng-japan 2016</span>
+                </p>
+            </div>
+        </section>
+
+        <section class="deck-slide">
+            <h2>About me</h2>
+            <div>
+                <img src="img/laco.png" alt="laco">
+                <ul style="vertical-align: top">
+                    <li>TOPGATE, Inc. <img src="img/topgate.png" width="200" alt="topgate" style="vertical-align: top">
+                    </li>
+                    <li>I &#128150; Google / &#127866; / Anime</li>
+                    <li>TypeScript/Golang</li>
+                    <li>
+                        Angular2 Info<br>
+                        <a href="https://ng2-info.github.io" target="_blank">https://ng2-info.github.io</a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>First PR</h2>
+            <img src="img/contribution.png" alt="">
+        </section>
+
+        <section class="deck-slide">
+            <h2>Agenda</h2>
+            <ul>
+                <li>FAQ and Misunderstanding</li>
+                <li>Angular 2 Fundamental</li>
+                <li>Things to Learn Angular 2</li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h2>FAQ and Misunderstanding</h2>
+            <p>Know the Real</p>
+        </section>
+
+        <section>
+            <img src="img/thinking-face.png" alt="">
+            <h2>Q. "AngularJS 2?"</h2>
+        </section>
+
+        <section>
+            <img src="img/delicious-face.png" alt="">
+            <h2><b>"Angular<s>JS</s> 2"</b></h2>
+        </section>
+
+        <section class="deck-slide" data-background-image="img/shield-large.svg">
+            <h2>New "Angular" project</h2>
+            <ul>
+                <li>Framework library</li>
+                <li>Browser/Web Worker/Electron/Native/...</li>
+                <li>Server-side</li>
+                <li>CLI</li>
+                <li>...</li>
+            </ul>
+            <p>
+                <b style="font-size: 1.6em">"Angular" = Platform</b>
+            </p>
+        </section>
+
+        <section>
+            <img src="img/cold-face.png" alt="">
+            <h2>Q. "I MUST learn TypeScript?"</h2>
+        </section>
+
+        <section>
+            <img src="img/delicious-face.png" alt="">
+            <h1>you SHOULD</h1>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Why TypeScript?</h2>
+            <ul>
+                <li>Static type checking</li>
+                <li>Decorators</li>
+                <li>Type-base DI</li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Static Types</h2>
+            <p>Types as API documents</p>
+            <ul>
+                <li>Always correct</li>
+                <li>Generics: Type-safe collection</li>
+                <li>Auto-completions</li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h2>@Decorators()</h2>
+            <i>Next generation standard</i>
+            <p>
+                Spec: <a href="https://github.com/wycats/javascript-decorators" target="_blank">javascript-decorators</a><br>
+                Status: <a href="https://github.com/tc39/ecma262" target="_blank">tc39/ecma262</a><br>
+            </p>
+            <ul>
+                <li>Class and Property: Stage 1</li>
+                <li>Function: Stage 0</li>
+                <li>Method: Stage 0</li>
+            </ul>
+            <p>
+                <code>tsc --experimentalDecorators --emitDecoratorMetadata</code>
+            </p>
+
+        </section>
+
+        <section class="deck-slide">
+            <h2>Component definition (ES5)</h2>
+            <pre><code>var ProfileComponent = ng.core.Component({
+    selector: "app-profile",
+    template: "&lt;p>Name: {{ name }}&lt;/p>"
+}).Class({
+    constructor: function() {
+        this.name = "laco";
+    }
+});</code></pre>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Component definition (TS)</h2>
+            <pre><code>@Component({
+    selector: "app-profile",
+    template: "&lt;p>Name: {{ name }}&lt;/p>"
+})
+class ProfileComponent {
+    name: string;
+    constructor() {
+        this.name = "laco";
+    }
+}</code></pre>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Type-base DI</h2>
+            <i>IOW, "Typo-safe" DI</i>
+            <pre><code style="font-size: 1.2em">import {Http} from "angular2/http";
+
+@Injectable()
+class MyService {
+    constructor(private anyNameForHttp: Http) {
+    }
+}</code></pre>
+            <p><code>"$http"</code> is gone!</p>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Angular 2 with TypeScript</h2>
+            <p>Brings Much Productivity</p>
+            <img src="img/raising-hand-face.png" alt=""> <span>"Why don't you use TypeScript?"</span>
+        </section>
+
+        <section>
+            <img src="img/crying-face.png" alt="">
+            <h2>Q. "Angular 1.x will die?"</h2>
+        </section>
+
+        <section>
+            <img src="img/hugging-face.png" alt="">
+            <h1>Don't worry!</h1>
+            <ul>
+                <li>1.4.x, 1.5.x : Stable</li>
+                <li>=<1.6 : Latest</li>
+            </ul>
+            <p>
+                No new feature <br>
+                Migration support
+            </p>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Component Helper</h2>
+            <pre><code>
+angular.module("myApp")
+    .component("myComponent", {...});
+
+&lt;my-component>&lt;/my-component></code></pre>
+            <div>
+                Sugar for migration <br>
+                <ul>
+                    <li>Directive wrapper</li>
+                    <li>Best practice of v1.x</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Component Router</h2>
+            <pre><code>
+$routeConfig: [
+    { path: '/a/b/c', component: 'myComponent' },
+    ...
+]</code></pre>
+            <div>
+                <ul>
+                    <li>Same API as "angular2/router"</li>
+                    <li><code>npm i -S angular@1.5.x @angular/router</code></li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <img src="img/hashed-face.png" alt="">
+            <h2>Q. "Two-way binding is gone?"</h2>
+        </section>
+
+        <section>
+            <img src="img/smiling-face.png" alt="">
+            <h1>No</h1>
+            <h3>But Changed</h3>
+        </section>
+
+        <section class="deck-slide">
+            <h2><code>ng-model</code></h2>
+            <pre><code>&lt;input ng-model="myName">
+&lt;span>{{ myName }}&lt;/span></code></pre>
+            <div>
+                <ul>
+                    <li>Two-way Data-binding</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="deck-slide">
+            <h2><code>[(ngModel)]</code></h2>
+            <pre><code>&lt;input [(ngModel)]="myName">
+<!-- Desugar -->
+&lt;input [ngModel]="myName"
+    (ngModelChange)="myNameChanged($event)"></code></pre>
+
+            <div>
+                <ul>
+                    <li>Sugar of One-way + Event handler</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <img src="img/weary-face.png" alt="">
+            <h2>Q. "dirty-checking yet?"</h2>
+        </section>
+
+        <section>
+            <img src="img/agree-face.png" alt="">
+            <h1>Yes</h1>
+            <h3>Get Performance</h3>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Code Generate</h2>
+            <p>Angular generates <b>VM friendly</b> code</p>
+            <ul>
+                <li>on bootstrapping</li>
+                <li>Component specific checker: <b>Change Detector</b></li>
+                <li><b>100000 checks / ~10 ms</b></li>
+            </ul>
+            <p><b style="font-size: 1.5em;">Don't worry number of <code>$watch</code>!</b></p>
+        </section>
+
+        <section>
+            <img src="img/raising-hand-face.png" alt="">
+            <h2>Q. "Server-side rendering?"</h2>
+        </section>
+
+        <section>
+            <img src="img/smiling-face.png" alt="">
+            <h2>Yes</h2>
+            <h3>But not yet</h3>
+        </section>
+
+        <section>
+            <h2>Angular Universal</h2>
+            <img src="img/universal.png" alt="" height="300">
+            <br>
+            <a href="https://github.com/angular/universal" target="_blank">angular/universal</a>
+            <p>Angular 2 for Node.js</p>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Angular Universal</h2>
+            <ul>
+                <li>One of the Angular Project</li>
+                <li>Run on Node.js</li>
+                <li>Same API as on Browser: <code style="font-size: 1.0em;">"angular2/core"</code></li>
+                <li>Can Reuse Components</li>
+            </ul>
+        </section>
+
+        <section>
+            <img src="img/universal-rendering.png" alt="">
+            <small><a href="https://www.youtube.com/watch?v=MtoHFDfi8FM" target="_blank">Full Stack Angular 2 – Jeff Whelpley and Patrick Stapleton - YouTube</a></small>
+        </section>
+
+        <section>
+            <img src="img/universal-rendering-graph.png" alt="">
+        </section>
+
+        <section class="deck-slide">
+            <h2>Other languages</h2>
+            <p>Java and Python: in the Future</p>
+            <a href="https://twitter.com/jeffwhelpley/status/707899659923165184" target="_blank"><img src="img/jeff-says-in-twitter.png" alt=""></a>
+        </section>
+
+        <section>
+            <img src="img/thinking-face.png" alt="">
+            <h2>Q. "Using Web Components?"</h2>
+        </section>
+
+        <section>
+            <img src="img/delicious-face.png" alt="">
+            <h2>No</h2>
+            <h3>But you can</h3>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Use ShadowDOM</h2>
+            <p>ViewEncapsulation</p>
+            <pre><code>@Component({
+    selector: "my-component",
+    encapsulation: ViewEncapsulation.Native
+})
+class MyComponent{}</code></pre>
+            <p>Default: <code>ViewEncapsulation.Emulated</code></p>
+        </section>
+
+        <section class="deck-slide">
+            <h2>ViewEncapsulation.Emulated</h2>
+            <img src="img/shadowdom-emulated.png" alt="">
+        </section>
+
+        <section class="deck-slide">
+            <h2>ViewEncapsulation.Native</h2>
+            <img src="img/shadowdom-native.png" alt="">
+        </section>
+
+        <section>
+            <img src="img/crying-face.png" alt="">
+            <h2>Q. "I want to know XXX"</h2>
+            <p>
+                Please ask me later!!
+            </p>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Angular 2 Fundamental</h2>
+        </section>
+
+        <section>
+            <img src="img/confused-face.png" alt="">
+            <h2>"What's this?"</h2>
+            <ul>
+                <li>SystemJS</li>
+                <li>RxJS</li>
+                <li>Zone.js</li>
+                <li>reflect-metadata</li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h2>SystemJS</h2>
+            <p>
+                Dynamic Module Loader <br>
+                <a href="https://github.com/systemjs/systemjs" target="_blank">systemjs/systemjs</a>
+            </p>
+            <ul>
+                <li>Loads modules in Runtime</li>
+                <li>For <i>Lazy Loading</i></li>
+                <li>Polyfill for Browser Loader</li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h2>SystemJS is NOT required</h2>
+            <ul>
+                <li>Used for Bundled JS</li>
+                <li>npm package never requires SystemJS</li>
+                <li>You can use Browserify / Webpack / JSPM!</li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h2>RxJS</h2>
+            <p>
+                <img src="img/rxjs.png" alt="" height="200"><br>
+                Reactive Programming in JavaScript <br>
+                <a href="https://github.com/ReactiveX/RxJS" target="_blank">ReactiveX/RxJS</a>
+            </p>
+            <ul>
+                <li>Polyfill for <b>Observable</b></li>
+                <li>Useful Operators</li>
+                <li>"Lodash for Async"</li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Observable</h2>
+            <i>Next generation standard</i>
+            <p>
+                Spec: <a href="https://github.com/zenparsing/es-observable" target="_blank">es-observable</a><br>
+                Status: <a href="https://github.com/tc39/ecma262" target="_blank">tc39/ecma262</a><br>
+            </p>
+            <ul>
+                <li>Proposal: Stage 1</li>
+                <li>Sequential Async Data</li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Observable vs Promise</h2>
+            <ul>
+                <li class="fragment">Multiple vs Once</li>
+                <li class="fragment">Cancelable vs Uncancelable</li>
+                <li class="fragment">Writable vs Read-only</li>
+                <li class="fragment">Lazy vs Not Lazy</li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Async on the Web</h2>
+            <ul>
+                <li class="fragment" data-fragment-index="1">DOM Events <span class="fragment" data-fragment-index="5">: Multiple </span><br><code>&lt;input onkeyup="..."></code></li>
+                <li class="fragment" data-fragment-index="2">Animations <span class="fragment" data-fragment-index="6">: Cancelable </span><br><code>element.animate(...).cancel()</code></li>
+                <li class="fragment" data-fragment-index="3">WebSockets <span class="fragment" data-fragment-index="7">: Multiple </span><br><code>connection.onmessage(e=>...)</code></li>
+                <li class="fragment" data-fragment-index="4">Ajax <span class="fragment" data-fragment-index="8">: Cancelable </span><br><code>xhr.abort()</code></li>
+            </ul>
+        </section>
+
+        <section>
+            <h1>Zone.js</h1>
+            <img src="img/zone-js.png" alt="">
+        </section>
+
+        <section class="deck-slide">
+            <h2>What's Zone?</h2>
+            <ul>
+                <li>Configurable execution context</li>
+                <li>Events: <code>beforeTask()</code>, <code>afterTask()</code>, ...</li>
+                <li>Angular's zone: <code>NgZone</code></li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Zones</h2>
+            <pre><code>zone.fork({
+    beforeTask: () => { console.log("before"); },
+    afterTask: () => { console.log("after"); }
+}).run(() => {
+    setTimeout(() => { console.log("task"); }, 0);
+});
+// "before"
+// "task"
+// "after"</code></pre>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Changes</h2>
+            <p>Changes happens in ...:</p>
+            <ul>
+                <li>XHR: Ajax responce</li>
+                <li>Timer: <code>setTimeout()</code>, <code>setInterval()</code></li>
+                <li>View Events: <code>click</code>, <code>submit</code></li>
+            </ul>
+            <p><b>Async tasks  => Changes</b><br>
+                Angular watches all task
+            </p>
+        </section>
+
+        <section class="deck-slide">
+            <h2>reflect-metadata</h2>
+            <i>Next generation standard</i>
+            <ul>
+                <li>Reflection for Decorators</li>
+                <li>Component metadata from Decorator</li>
+            </ul>
+            <p>
+                <code>tsc --emitDecoratorMetadata</code>
+            </p>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Things to Learn Angular 2</h2>
+            <h4>How to get happy Angular days</h4>
+        </section>
+
+        <section>
+            <code style="font-size: 1.2em">Angular[2] = giveXXX(Angular[1]);</code>
+        </section>
+
+        <section class="deck-slide">
+            <h2>XXX = Simplicity</h2>
+            <h3>Angular 1</h3>
+            <p style="font-family: 'Comic Sans MS',serif;">
+                ngClick, ngKeydown, ngKeyup, ngBlur, ngMaxLength, ngMinLength, ngMouseOver, ngMouseLeave, ngBind,
+                ngFocus, ...
+            </p>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Angular 2</h2>
+            Things to remember
+            <p class="fragment">Properties: <code>&lt;input [value]="userName"></code></p>
+            <p class="fragment">Events: <code>&lt;button (click)="send($event)">...&lt;/button></code></p>
+            <p class="fragment">Two-way: <code>&lt;input [(ngModel)]="userName"></code></p>
+            <p class="fragment"><s>Controllers / Directives / Scopes</s> => <b>Components</b></p>
+        </section>
+
+        <section class="deck-slide">
+            <h2>XXX = Performance</h2>
+            Angular 1 <br>
+            <ul>
+                <li>dirty-checking</li>
+                <li>two-way bindings</li>
+                <li>$digest loop</li>
+            </ul>
+        </section>
+
+        <section>
+            <h1>Change Detection</h1>
+            <img src="img/Angular_2_Change_Detection_Explained.png" alt="">
+            <small><a href="http://blog.thoughtram.io//angular/2016/02/22/angular-2-change-detection-explained.html">thoughtram Blog</a></small><br>
+            <small><a href="https://github.com/laco0416/translations/tree/master/articles/angular-2-change-detection-explained" target="_blank">日本語訳</a></small>
+            <br>
+            Brings <b>Strategy</b> for rendering
+        </section>
+
+        <section class="deck-slide">
+            <h2>What's Change Detection?</h2>
+            Model => View Projection <br>
+            <img src="img/cd-4.png" alt="">
+        </section>
+
+        <section class="deck-slide">
+            <h2>Check changes</h2>
+            <ul>
+                <li>Every component has own CD</li>
+                <li>100000 checks / 10ms</li>
+                <li>Change Detectors Tree:</li>
+            </ul>
+            <br>
+            <img src="img/cd-tree-2.png" height="500">
+        </section>
+
+        <section class="deck-slide">
+            <h2>One-way checking</h2>
+            <img src="img/cd-tree-7.png" alt="">
+        </section>
+
+        <section class="deck-slide">
+            <h2>ChangeDetectionStrategy</h2>
+            <span><i>Should I update my view?</i></span>
+            <img src="img/cd-tree-8.png" alt="">
+        </section>
+
+        <section>
+            <code style="font-size: 1.2em">Angular[2] = giveXXX(Angular[1]);</code>
+            <br>
+            <ul>
+                <li>Simplicity</li>
+                <li>Performance</li>
+                <li>???</li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h2>XXX = Toolability</h2>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Tooling</h2>
+            <div>
+                Static tools<br>
+                <ul style="padding-left: 50px">
+                    <li>Compilers</li>
+                    <li>Linters</li>
+                    <li>IDEs</li>
+                </ul>
+            </div>
+            <div>
+                Dynamic tools<br>
+                <ul style="padding-left: 50px">
+                    <li>Unit tests</li>
+                    <li>Browser console</li>
+                    <li>Batarang</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="deck-slide">
+            <h2>"Analyzability"</h2>
+            <span>Angular 1</span>
+            <pre><code>&lt;my-directive
+    prop1="ctrl.someProp"
+    prop2="some text">
+&lt;/my-directive></code></pre>
+            <p>Expression? Text?</p>
+        </section>
+
+       <section class="deck-slide">
+            <h2>Angular 2</h2>
+            <pre><code>&lt;my-directive
+    [prop1]="someProp"
+    prop2="some text">
+&lt;/my-directive></code></pre>
+            <p>
+                <b>Static Analyzable</b>
+            </p>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Things to learn</h2>
+            <p>Angular on the (Next) Web Standards</p>
+            <ul>
+                <li>ES2015</li>
+                <li>Decorators</li>
+                <li>Observables</li>
+                <li>Zones</li>
+            </ul>
+            <p>To Learn:  Angular feature &lt; <b>Web Standards</b></p>
+        </section>
+
+        <section>
+            <h1>Keep Learning</h1>
+        </section>
+
+        <section>
+            <img src="img/dizzy-face.png" alt="">
+            <h2>"looks like a different library..."</h2>
+        </section>
+
+        <section>
+            <img src="img/smiling-face.png" alt="">
+            <h1>Yes</h1>
+            <h2>Everything changes.</h2>
+        </section>
+
+        <section>
+            <h1>Learn the Web</h1>
+        </section>
+
+        <section>
+            <h2>The Web has moved</h2>
+            <h2>Frameworks must move</h2>
+
+            <i style="float: right;">Martin Probst</i>
+        </section>
+
+        <section>
+            <img src="img/graph/graph.001.png" alt="">
+        </section>
+
+        <section>
+            <h3>Nothing was achieved in the comfort zone</h3>
+            <i style="float: right;">Todd Motto</i>
+        </section>
+
+        <section>
+            <h1>Keep Learning</h1>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Next standards</h2>
+            <ul>
+                <li>ES2016</li>
+                <li>Web Components</li>
+                <li>Web Animations</li>
+                <li>Module Loader</li>
+                <li>HTTP2</li>
+                <li>ServiceWorker</li>
+                <li>...</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Not to Know Everything</h2>
+            <h1>OK!</h1>
+            <h2>But Keep an eye on it!</h2>
+        </section>
+
+        <section>
+            <h2>Not to Use the Latest Staff</h2>
+            <h1>OK!</h1>
+            <h2>But Keep an eye on it!</h2>
+        </section>
+
+        <section>
+            <h2>Keep using Angular 1</h2>
+            <img src="img/ok-face.png" alt="">
+            <h1>OK!!</h1>
+            <h2>Keep an eye on Angular 2!</h2>
+        </section>
+
+        <section>
+            <h2>Try to use Angular 2</h2>
+            <h1>Great!</h1>
+            <img src="img/kissing-face.png" alt="">
+        </section>
+
+        <section>
+            <h2>but Don't Forget</h2>
+            <h2>Angular 2 is BETA</h2>
+        </section>
+
+        <section>
+            <img src="img/ng2_bull.png" height="600">
+        </section>
+
+        <section>
+            <h2>Watch CHANGELOG</h2>
+            <img src="img/changelog.png" alt="">
+        </section>
+
+        <section>
+            <h2>More: Watch Commits</h2>
+            <img src="img/commiglog.png" alt="">
+        </section>
+
+        <section>
+            <h2>More...?</h2>
+        </section>
+
+        <section>
+            <img src="img/agree-face.png" alt="">
+            <h2>Let's Contribute</h2>
+        </section>
+
+        <section>
+            <h2>Send Issues</h2>
+            <img src="img/issues.png" alt="">
+        </section>
+
+        <section>
+            <h2>Send Patches</h2>
+            <img src="img/contributing.png" alt="">
+        </section>
+
+        <section class="deck-slide">
+            <h2>Don't scare Open Source</h2>
+            <ul>
+                <li>Have Confidence</li>
+                <li>Keep Creating</li>
+                <li>Keep Improving</li>
+                <li>Nothing was Achieved in the Comfort Zone</li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Community</h2>
+            <ul>
+                <li>Conferences</li>
+                <li>Meetup</li>
+                <li>Blog</li>
+                <li>SNS</li>
+            </ul>
+            <p>Everyone has Something to Teach Others</p>
+        </section>
+
+        <section>
+            <h1>Angular is a Platform</h1>
+        </section>
+
+        <section>
+            <h1>Angular based on <br>Next Generation Standards</h1>
+        </section>
+
+        <section>
+            <h1>Learn the Web</h1>
+        </section>
+
+        <section>
+            <h1>Keep Learning</h1>
+        </section>
+
+        <section>
+            <h1>Nothing <br>was Achieved <br>in the <br>Comfort Zone</h1>
+        </section>
+
+        <section>
+            <h1>Enjoy Learning!</h1>
+        </section>
+
+        <section>
+            <h1>Have a <br>
+                Happy Angular Day!</h1>
+        </section>
+
+        <section class="deck-slide">
+            <h1 style="margin-top: 2em;">Thanks!</h1>
+
+            <ul style="font-size: 0.5em;">
+                <li><a href="https://speakerdeck.com/toddmotto/which-way-is-up">Todd Motto - Which Way Is Up? // Speaker Deck</a></li>
+                <li><a href="https://www.youtube.com/watch?v=1RzYpIAn-3g">Martin Probst - Awesome Productivity with Angular 2 - YouTube</a></li>
+            </ul>
+            <div class="profile">
+                <img src="img/laco.png">
+                <p>
+                    <a href="https://twitter.com/laco0416" target="_blank">@laco0416</a><br>
+                </p>
+            </div>
+        </section>
+    </div>
+
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+            {
+                src: 'lib/js/classList.js', condition: function () {
+                return !document.body.classList;
+            }
+            },
+            {
+                src: 'plugin/markdown/marked.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src: 'plugin/markdown/markdown.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                hljs.initHighlightingOnLoad();
+            }
+            },
+            {src: 'plugin/zoom-js/zoom.js', async: true},
+            {src: 'plugin/notes/notes.js', async: true}
+        ]
+    });
+
+</script>
+
+</body>
+</html>
