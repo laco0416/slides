@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>Sample</title>
+    <title>How to get happy Angular days</title>
 
     <meta name="description" content="example slide">
     <meta name="author" content="laco0416">
@@ -68,11 +68,6 @@
             </div>
         </section>
 
-        <section>
-            <h2>First PR</h2>
-            <img src="img/contribution.png" alt="">
-        </section>
-
         <section class="deck-slide">
             <h2>Agenda</h2>
             <ul>
@@ -84,7 +79,7 @@
 
         <section class="deck-slide">
             <h2>FAQ and Misunderstanding</h2>
-            <p>Know the Real</p>
+            <p>Know the Fact</p>
         </section>
 
         <section>
@@ -131,10 +126,11 @@
         </section>
 
         <section class="deck-slide">
-            <h2>Static Types</h2>
+            <h2>Static Types <img src="img/shield-emoji.png" height="80"></h2>
             <p>Types as API documents</p>
             <ul>
                 <li>Always correct</li>
+                <li>Compiler check</li>
                 <li>Generics: Type-safe collection</li>
                 <li>Auto-completions</li>
             </ul>
@@ -194,12 +190,12 @@ class MyService {
     constructor(private anyNameForHttp: Http) {
     }
 }</code></pre>
-            <p><code>"$http"</code> is gone!</p>
+            <p><img src="img/goodbye-face.png" alt="" height="80"> Good-bye <code style="font-size: 1.2em;">"$http"</code></p>
         </section>
 
         <section class="deck-slide">
             <h2>Angular 2 with TypeScript</h2>
-            <p>Brings Much Productivity</p>
+            <p style="font-size: 1.2em">Safe <img src="img/shield-emoji.png" height="80"> & Productive <img src="img/hammer-emoji.png" height="80"></p>
             <img src="img/raising-hand-face.png" alt=""> <span>"Why don't you use TypeScript?"</span>
         </section>
 
@@ -253,7 +249,7 @@ $routeConfig: [
         </section>
 
         <section>
-            <img src="img/hashed-face.png" alt="">
+            <img src="img/hushed-face.png" alt="">
             <h2>Q. "Two-way binding is gone?"</h2>
         </section>
 
@@ -267,11 +263,7 @@ $routeConfig: [
             <h2><code>ng-model</code></h2>
             <pre><code>&lt;input ng-model="myName">
 &lt;span>{{ myName }}&lt;/span></code></pre>
-            <div>
-                <ul>
-                    <li>Two-way Data-binding</li>
-                </ul>
-            </div>
+            <p>Two-way Data-binding</p>
         </section>
 
         <section class="deck-slide">
@@ -281,11 +273,11 @@ $routeConfig: [
 &lt;input [ngModel]="myName"
     (ngModelChange)="myNameChanged($event)"></code></pre>
 
-            <div>
-                <ul>
-                    <li>Sugar of One-way + Event handler</li>
-                </ul>
-            </div>
+            <p>Sugar of One-way + Event handler</p>
+            <ul>
+                <li>Explicit Syntax: <code>[()]</code></li>
+                <li>Simple API</li>
+            </ul>
         </section>
 
         <section>
@@ -304,8 +296,8 @@ $routeConfig: [
             <p>Angular generates <b>VM friendly</b> code</p>
             <ul>
                 <li>on bootstrapping</li>
-                <li>Component specific checker: <b>Change Detector</b></li>
-                <li><b>100000 checks / ~10 ms</b></li>
+                <li>Component specific checker: <b>Change Detector</b> <img src="img/robot-emoji.png" height="60"></li>
+                <li><b>100000 checks / ~10 ms</b>  <img src="img/rocket-emoji.png" height="60"></li>
             </ul>
             <p><b style="font-size: 1.5em;">Don't worry number of <code>$watch</code>!</b></p>
         </section>
@@ -349,8 +341,8 @@ $routeConfig: [
         </section>
 
         <section class="deck-slide">
-            <h2>Other languages</h2>
-            <p>Java and Python: in the Future</p>
+            <h2>In the future...</h2>
+            <p>Node.js / Java / PHP / .Net / Python / ...</p>
             <a href="https://twitter.com/jeffwhelpley/status/707899659923165184" target="_blank"><img src="img/jeff-says-in-twitter.png" alt=""></a>
         </section>
 
@@ -513,8 +505,9 @@ class MyComponent{}</code></pre>
                 <li>Timer: <code>setTimeout()</code>, <code>setInterval()</code></li>
                 <li>View Events: <code>click</code>, <code>submit</code></li>
             </ul>
-            <p><b>Async tasks  => Changes</b><br>
-                Angular watches all task
+            <p>
+                <b>Async tasks <img src="img/collition-emoji.png" height="80"> Changes</b><br>
+                => Angular watches all task
             </p>
         </section>
 
@@ -536,7 +529,7 @@ class MyComponent{}</code></pre>
         </section>
 
         <section>
-            <code style="font-size: 1.2em">Angular[2] = giveXXX(Angular[1]);</code>
+            <code style="font-size: 1.2em">ng2 = giveToNg1( XXX );</code>
         </section>
 
         <section class="deck-slide">
@@ -546,6 +539,9 @@ class MyComponent{}</code></pre>
                 ngClick, ngKeydown, ngKeyup, ngBlur, ngMaxLength, ngMinLength, ngMouseOver, ngMouseLeave, ngBind,
                 ngFocus, ...
             </p>
+            <p style="font-family: 'Comic Sans MS',serif;">
+                .directive(), .controller(), .service(), .factory(), .constant(), .config(), ...
+            </p>
         </section>
 
         <section class="deck-slide">
@@ -554,17 +550,18 @@ class MyComponent{}</code></pre>
             <p class="fragment">Properties: <code>&lt;input [value]="userName"></code></p>
             <p class="fragment">Events: <code>&lt;button (click)="send($event)">...&lt;/button></code></p>
             <p class="fragment">Two-way: <code>&lt;input [(ngModel)]="userName"></code></p>
-            <p class="fragment"><s>Controllers / Directives / Scopes</s> => <b>Components</b></p>
+            <p class="fragment">Component: <code>@Component</code></p>
         </section>
 
         <section class="deck-slide">
             <h2>XXX = Performance</h2>
-            Angular 1 <br>
+            Angular 1 = <img src="img/turtle-emoji.png" height="80"><br>
             <ul>
                 <li>dirty-checking</li>
                 <li>two-way bindings</li>
                 <li>$digest loop</li>
             </ul>
+            <p></p>
         </section>
 
         <section>
@@ -573,7 +570,7 @@ class MyComponent{}</code></pre>
             <small><a href="http://blog.thoughtram.io//angular/2016/02/22/angular-2-change-detection-explained.html">thoughtram Blog</a></small><br>
             <small><a href="https://github.com/laco0416/translations/tree/master/articles/angular-2-change-detection-explained" target="_blank">日本語訳</a></small>
             <br>
-            Brings <b>Strategy</b> for rendering
+            <b>Strategy</b> for rendering
         </section>
 
         <section class="deck-slide">
@@ -585,8 +582,8 @@ class MyComponent{}</code></pre>
         <section class="deck-slide">
             <h2>Check changes</h2>
             <ul>
-                <li>Every component has own CD</li>
-                <li>100000 checks / 10ms</li>
+                <li>Every component has own CD <img src="img/robot-emoji.png" height="60"></li>
+                <li>100000 checks / 10ms <img src="img/rocket-emoji.png" height="60"></li>
                 <li>Change Detectors Tree:</li>
             </ul>
             <br>
@@ -605,17 +602,17 @@ class MyComponent{}</code></pre>
         </section>
 
         <section>
-            <code style="font-size: 1.2em">Angular[2] = giveXXX(Angular[1]);</code>
+            <code style="font-size: 1.2em">ng2 = giveToNg1(XXX)</code>
             <br>
             <ul>
-                <li>Simplicity</li>
-                <li>Performance</li>
+                <li>Simplicity <img src="img/light-emoji.png" height="60"></li>
+                <li>Performance <img src="img/rocket-emoji.png" height="60"></li>
                 <li>???</li>
             </ul>
         </section>
 
         <section class="deck-slide">
-            <h2>XXX = Toolability</h2>
+            <h2>XXX = Toolability <img src="img/hammer-emoji.png" height="120"></h2>
         </section>
 
         <section class="deck-slide">
@@ -645,7 +642,7 @@ class MyComponent{}</code></pre>
     prop1="ctrl.someProp"
     prop2="some text">
 &lt;/my-directive></code></pre>
-            <p>Expression? Text?</p>
+            <p>Expression? Text? <img src="img/hushed-face.png" height="60"></p>
         </section>
 
        <section class="deck-slide">
@@ -655,7 +652,7 @@ class MyComponent{}</code></pre>
     prop2="some text">
 &lt;/my-directive></code></pre>
             <p>
-                <b>Static Analyzable</b>
+                <b>Static Analyzable <img src="img/kissing-face.png" height="60"></b>
             </p>
         </section>
 
@@ -672,10 +669,6 @@ class MyComponent{}</code></pre>
         </section>
 
         <section>
-            <h1>Keep Learning</h1>
-        </section>
-
-        <section>
             <img src="img/dizzy-face.png" alt="">
             <h2>"looks like a different library..."</h2>
         </section>
@@ -687,7 +680,7 @@ class MyComponent{}</code></pre>
         </section>
 
         <section>
-            <h1>Learn the Web</h1>
+            <h1>Understand the Web</h1>
         </section>
 
         <section>
@@ -699,11 +692,6 @@ class MyComponent{}</code></pre>
 
         <section>
             <img src="img/graph/graph.001.png" alt="">
-        </section>
-
-        <section>
-            <h3>Nothing was achieved in the comfort zone</h3>
-            <i style="float: right;">Todd Motto</i>
         </section>
 
         <section>
@@ -724,22 +712,27 @@ class MyComponent{}</code></pre>
         </section>
 
         <section>
+            <h3>Nothing was achieved in the comfort zone</h3>
+            <i style="float: right;">Todd Motto</i>
+        </section>
+
+        <section>
             <h2>Not to Know Everything</h2>
             <h1>OK!</h1>
-            <h2>But Keep an eye on it!</h2>
+            <h2>But Keep an eye on it! <img src="img/eye-emoji.png" height="60"></h2>
         </section>
 
         <section>
             <h2>Not to Use the Latest Staff</h2>
             <h1>OK!</h1>
-            <h2>But Keep an eye on it!</h2>
+            <h2>But Keep an eye on it! <img src="img/eye-emoji.png" height="60"></h2>
         </section>
 
         <section>
             <h2>Keep using Angular 1</h2>
             <img src="img/ok-face.png" alt="">
             <h1>OK!!</h1>
-            <h2>Keep an eye on Angular 2!</h2>
+            <h2>Keep an eye on Angular 2! <img src="img/eye-emoji.png" height="60"></h2>
         </section>
 
         <section>
@@ -786,6 +779,11 @@ class MyComponent{}</code></pre>
             <img src="img/contributing.png" alt="">
         </section>
 
+        <section>
+            <h2>My First PR</h2>
+            <img src="img/contribution.png" alt="">
+        </section>
+
         <section class="deck-slide">
             <h2>Don't scare Open Source</h2>
             <ul>
@@ -797,14 +795,14 @@ class MyComponent{}</code></pre>
         </section>
 
         <section class="deck-slide">
-            <h2>Community</h2>
+            <h2>You can also...</h2>
             <ul>
-                <li>Conferences</li>
-                <li>Meetup</li>
-                <li>Blog</li>
-                <li>SNS</li>
+                <li>Join Conferences</li>
+                <li>Go to Meetup</li>
+                <li>Write Articles</li>
+                <li>Discuss on SNS</li>
             </ul>
-            <p>Everyone has Something to Teach Others</p>
+            <p><b>Everyone has Something to Teach Others</b></p>
         </section>
 
         <section>
@@ -812,11 +810,11 @@ class MyComponent{}</code></pre>
         </section>
 
         <section>
-            <h1>Angular based on <br>Next Generation Standards</h1>
+            <h1>Angular on <br>Next Generation Standards</h1>
         </section>
 
         <section>
-            <h1>Learn the Web</h1>
+            <h1>Understand the Web</h1>
         </section>
 
         <section>
@@ -825,6 +823,10 @@ class MyComponent{}</code></pre>
 
         <section>
             <h1>Nothing <br>was Achieved <br>in the <br>Comfort Zone</h1>
+        </section>
+
+        <section>
+            <h1>Let's Contribute!</h1>
         </section>
 
         <section>
