@@ -43,7 +43,7 @@
                 <span>A Way for Happy Angular Days</span>
             </hgroup>
             <div class="profile">
-                <img src="img/laco.png">
+                <img src="img/laco.png" style="vertical-align: top">
                 <p>
                     Suguru Inatomi <a href="https://twitter.com/laco0416" target="_blank">@laco0416</a><br>
                     <span>ng-japan 2016</span>
@@ -93,7 +93,7 @@
         </section>
 
         <section class="deck-slide" data-background-image="img/shield-large.svg">
-            <h2>New "Angular" project</h2>
+            <h2>"Angular" contains ...</h2>
             <ul>
                 <li>Framework library</li>
                 <li>Browser/Web Worker/Electron/Native/...</li>
@@ -149,7 +149,7 @@
                 <li>Method: Stage 0</li>
             </ul>
             <p>
-                <code>tsc --experimentalDecorators --emitDecoratorMetadata</code>
+                <code>tsc --experimentalDecorators</code>
             </p>
 
         </section>
@@ -419,7 +419,7 @@ class MyComponent{}</code></pre>
             <ul>
                 <li>Used for Bundled JS</li>
                 <li>npm package never requires SystemJS</li>
-                <li>You can use Browserify / Webpack / JSPM!</li>
+                <li>You can use Browserify / Webpack / JSPM / ...</li>
             </ul>
         </section>
 
@@ -470,31 +470,41 @@ class MyComponent{}</code></pre>
             </ul>
         </section>
 
+
         <section>
             <h1>Zone.js</h1>
             <img src="img/zone-js.png" alt="">
+            <p>Polyfill for <b>Zones</b></p>
         </section>
 
         <section class="deck-slide">
-            <h2>What's Zone?</h2>
+            <h2>Zones</h2>
+            <i>Next generation standard</i>
+            <p>
+                Spec: <a href="https://domenic.github.io/zones" target="_blank">Zones</a><br>
+                Status: <a href="https://github.com/tc39/ecma262" target="_blank">tc39/ecma262</a><br>
+            </p>
             <ul>
-                <li>Configurable execution context</li>
+                <li>Proposal: Stage 0</li>
+                <li>a logical asynchronous context</li>
                 <li>Events: <code>beforeTask()</code>, <code>afterTask()</code>, ...</li>
-                <li>Angular's zone: <code>NgZone</code></li>
             </ul>
         </section>
 
         <section class="deck-slide">
             <h2>Zones</h2>
-            <pre><code>zone.fork({
-    beforeTask: () => { console.log("before"); },
-    afterTask: () => { console.log("after"); }
+            <pre><code class="javascript" style="font-size: 1.2em">zone.fork({
+    onInvokeTask: (delegate, current, target, task, applyThis, applyArgs) => {
+        try {
+            console.log("before")
+            return delegate.invokeTask(target, task, applyThis, applyArgs);
+        } finally {
+            console.log("after");
+        }
+    }
 }).run(() => {
     setTimeout(() => { console.log("task"); }, 0);
-});
-// "before"
-// "task"
-// "after"</code></pre>
+});</code></pre>
         </section>
 
         <section class="deck-slide">
@@ -529,7 +539,7 @@ class MyComponent{}</code></pre>
         </section>
 
         <section>
-            <code style="font-size: 1.2em">ng2 = giveToNg1( XXX );</code>
+            <code style="font-size: 1.2em">ng2 = ng1.add( XXX );</code>
         </section>
 
         <section class="deck-slide">
@@ -602,7 +612,7 @@ class MyComponent{}</code></pre>
         </section>
 
         <section>
-            <code style="font-size: 1.2em">ng2 = giveToNg1(XXX)</code>
+            <code style="font-size: 1.2em">ng2 = ng1.add(XXX)</code>
             <br>
             <ul>
                 <li>Simplicity <img src="img/light-emoji.png" height="60"></li>
@@ -684,14 +694,14 @@ class MyComponent{}</code></pre>
         </section>
 
         <section>
-            <h2>The Web has moved</h2>
-            <h2>Frameworks must move</h2>
-
-            <i style="float: right;">Martin Probst</i>
+            <img src="img/graph/graph.001.png" alt="">
         </section>
 
         <section>
-            <img src="img/graph/graph.001.png" alt="">
+            <h2>The Web has moved</h2>
+            <h2>Frameworks must move</h2>
+
+            <i style="float: right;font-size: 0.5em"><a href="https://www.youtube.com/watch?v=1RzYpIAn-3g">Martin Probst - Awesome Productivity with Angular 2 - YouTube</a></i>
         </section>
 
         <section>
@@ -699,13 +709,12 @@ class MyComponent{}</code></pre>
         </section>
 
         <section class="deck-slide">
-            <h2>Next standards</h2>
+            <h2>Coming soon</h2>
             <ul>
-                <li>ES2016</li>
+                <li>ES2016 / ES.next</li>
                 <li>Web Components</li>
                 <li>Web Animations</li>
                 <li>Module Loader</li>
-                <li>HTTP2</li>
                 <li>ServiceWorker</li>
                 <li>...</li>
             </ul>
@@ -713,7 +722,7 @@ class MyComponent{}</code></pre>
 
         <section>
             <h3>Nothing was achieved in the comfort zone</h3>
-            <i style="float: right;">Todd Motto</i>
+            <i style="float: right;font-size: 0.5em"><a href="https://speakerdeck.com/toddmotto/which-way-is-up">Todd Motto - Which Way Is Up? // Speaker Deck</a></i>
         </section>
 
         <section>
@@ -788,16 +797,16 @@ class MyComponent{}</code></pre>
             <h2>Don't scare Open Source</h2>
             <ul>
                 <li>Have Confidence</li>
+                <li>Keep Learning</li>
                 <li>Keep Creating</li>
                 <li>Keep Improving</li>
-                <li>Nothing was Achieved in the Comfort Zone</li>
             </ul>
         </section>
 
         <section class="deck-slide">
             <h2>You can also...</h2>
             <ul>
-                <li>Join Conferences</li>
+                <li>Join a Conference (just now!)</li>
                 <li>Go to Meetup</li>
                 <li>Write Articles</li>
                 <li>Discuss on SNS</li>
@@ -839,16 +848,14 @@ class MyComponent{}</code></pre>
         </section>
 
         <section class="deck-slide">
-            <h1 style="margin-top: 2em;">Thanks!</h1>
-
-            <ul style="font-size: 0.5em;">
-                <li><a href="https://speakerdeck.com/toddmotto/which-way-is-up">Todd Motto - Which Way Is Up? // Speaker Deck</a></li>
-                <li><a href="https://www.youtube.com/watch?v=1RzYpIAn-3g">Martin Probst - Awesome Productivity with Angular 2 - YouTube</a></li>
-            </ul>
+            <hgroup>
+                <h1 style="margin-top: 2em;">Thanks!</h1>
+            </hgroup>
             <div class="profile">
-                <img src="img/laco.png">
+                <img src="img/laco.png" style="vertical-align: top">
                 <p>
-                    <a href="https://twitter.com/laco0416" target="_blank">@laco0416</a><br>
+                    Suguru Inatomi <a href="https://twitter.com/laco0416" target="_blank">@laco0416</a><br>
+                    <span>ng-japan 2016</span>
                 </p>
             </div>
         </section>
