@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Angular 2 and ECMAScript</title>
+
+    <meta name="description" content="Angular 2ハンズオン 大阪">
+    <meta name="author" content="laco0416">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        <section>
+            <hgroup>
+                <h1 style="font-size: 3em;">Angular 2 and ECMAScript</h1>
+            </hgroup>
+            <div class="profile">
+                <p>
+                    <a href="https://twitter.com/laco0416">@laco0416</a><br>
+                    <span>4/16 Angular 2 Hands-on, Osaka</span>
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <h2>About me</h2>
+            <div>
+                <img src="img/laco.png" alt="laco">
+            </div>
+        </section>
+        
+        <section>
+            <img src="img/ng2-info.png" alt="laco">
+            <p>
+                <a href="https://ng2-info.github.io">ng2-info.github.io</a>
+            </p>
+        </section>
+
+        <section>
+            <h1>"Common Senses"</h1>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Angular 2 with Standards</h2>
+            <div>
+                <ul>
+                    <li>Classes</li>
+                    <li>Promises</li>
+                    <li>Decorators</li>
+                    <li>Observables</li>
+                    <li>...</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <img src="img/missing.gif" height="600">
+        </section>
+
+        <section>
+            <img src="img/hugging-face.png" alt="">
+            <h1>Don't scare the future!</h1>
+        </section>
+
+        <section class="deck-slide">
+            <h1>We are in 2016!</h1>
+            <ul>
+                <li>ES2015: <b style="color: #ffee47">NOT FUTURE</b></li>
+                <li>ES2016: very small</li>
+                <li>Time to catch up!!</li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h1>ES2015 Things</h1>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Classes</h2>
+            <pre><code>class Greeter {
+    constructor(text) { this.text = text; }
+    greet() { return "Hello " + this.text + "!"; }
+}
+let greeter = new Greeter("World");
+greeter.greet(); // Hello World!</code></pre>
+            <ul>
+                <li><i>Class-based Object-Oriented Programming</i></li>
+                <li>Methods and Properties</li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Classes in Angular 2: Component</h2>
+            <pre><code>@Component({
+    selector: "app-profile",
+    template: "&lt;p>Name: {{ name }}&lt;/p>"
+})
+class ProfileComponent {
+    name: string; // member property (TypeScript)
+    constructor() {
+        this.name = "laco";
+    }
+}</code></pre>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Template Literals</h2>
+            <pre><code>let text = "World";
+console.log(`Hello ${text}!`);</code></pre>
+            <ul>
+                <li>Embedded expressions</li>
+                <li>Multi-lines</li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Template Literals in Angular 2: Component template</h2>
+            <pre><code>@Component({
+    selector: "my-app",
+    template: `
+    <div>
+        <h1>{{ title }}</h1>
+    </div>
+    `
+})
+class AppComponent {
+}</code></pre>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Allow functions</h2>
+            <pre><code>class Foo {
+    constructor() {
+        window.onload = () => {
+            this.doSomething();
+        };
+    }
+    doSomething() {}
+}</code></pre>
+            <ul>
+                <li>Good-bye <code>function</code><img src="img/goodbye-face.png" alt="" height="60"></li>
+                <li>Lexical <code>this</code></li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Allow functions in Angular 2: Callback</h2>
+            <pre><code>http.get("/path/data.json")
+    .map(resp => resp.json())
+    .subscribe(data =>
+        console.log(data);
+    });</code></pre>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Promises</h2>
+            <pre><code>function readFile(path) {
+    return new Promise((resolve, reject) => {
+        fs.readFile(path, (error, data) => {
+            if (error) { reject(error); return; }
+            resolve(data);
+        });
+    };
+}</code></pre>
+            <ul>
+                <li>Async tasks</li>
+                <li><code>then</code> and <code>catch</code></li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Promises in Angular 2: Services</h2>
+            <pre><code>myService.getData(path)
+    .toPromise()
+    .then(data =>
+        console.log(data);
+    })
+    .catch(error => alert(error));</code></pre>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Import/Export</h2>
+            <pre><code>// lib.js
+export function greet(text) { return `Hello ${text}!`; };
+
+// app.js
+import { greet } from "./lib";
+greet("World");</code></pre>
+            <ul>
+                <li>Modules syntax</li>
+                <li>Needs transpiler</li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Import/Export in Angular 2: bootstrap</h2>
+            <pre><code>import {bootstrap} from "angular2/platform/browser";
+import {App} from "./app";
+
+bootstrap(App);</code></pre>
+        </section>
+
+        <section class="deck-slide">
+            <h1>ES2016+ Features</h1>
+            <i>Supported by TypeScript</i>
+        </section>
+
+        <section>
+            <img src="img/future.gif" alt="" height="600">
+        </section>
+
+        <section class="deck-slide">
+            <h2>Decorators</h2>
+            <pre><code>@Component({
+    selector: "my-app",
+    template: "My App"
+})
+class AppComponent {
+}</code></pre>
+
+            <ul>
+                <li><code>@Decorators</code></li>
+                <li>Defines <i>metadata</i></li>
+                <li>Polyfill: TypeScript</li>
+                <li><a href="https://github.com/tc39/ecma262" target="_blank">Stage 1 Proposal</a></li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Observables</h2>
+            <pre><code>Observable.timer(1000)
+    .flatMap(() => http.get(path))
+    .map(resp => resp.json())
+    .subscribe(data => console.log(data));</code></pre>
+
+            <ul>
+                <li>Sequential async data</li>
+                <li>Polyfill: <a href="https://github.com/ReactiveX/RxJS" target="_blank">RxJS</a></li>
+                <li><a href="https://github.com/tc39/ecma262" target="_blank">Stage 1 Proposal</a></li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h2>More...</h2>
+            <ul>
+                <li>Zones</li>
+                <li>System.import</li>
+                <li>reflect-metadata</li>
+                <li>fetch</li>
+                <li>...</li>
+            </ul>
+        </section>
+
+        <section>
+            <h1>Angular on <br>Next Web Standards</h1>
+        </section>
+
+        <section>
+            <h1>Understand the Web</h1>
+        </section>
+
+        <section>
+            <h1>Keep Learning!</h1>
+        </section>
+
+        <section class="deck-slide">
+            <h1 style="margin-top: 2em;">Thanks!</h1>
+            <div class="profile">
+                <img src="img/laco.png">
+                <p>
+                    <a href="https://twitter.com/laco0416">@laco0416</a><br>
+                </p>
+            </div>
+        </section>
+    </div>
+
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: false,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+            {
+                src: 'lib/js/classList.js', condition: function () {
+                return !document.body.classList;
+            }
+            },
+            {
+                src: 'plugin/markdown/marked.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src: 'plugin/markdown/markdown.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                hljs.initHighlightingOnLoad();
+            }
+            },
+            {src: 'plugin/zoom-js/zoom.js', async: true},
+            {src: 'plugin/notes/notes.js', async: true}
+        ]
+    });
+
+</script>
+
+</body>
+</html>
