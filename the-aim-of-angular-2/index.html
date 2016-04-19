@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>The Aim of Angular 2</title>
+
+    <meta name="description" content="April 23, 2016 html5j #64">
+    <meta name="author" content="laco0416">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        <section class="deck-slide">
+            <hgroup>
+                <h1 style="font-size: 3em;">The Aim of Angular 2</h1>
+            </hgroup>
+            <div class="profile">
+                <p>
+                    <a href="https://twitter.com/laco0416">@laco0416</a><br>
+                    <span>4/23 html5j #64</span>
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <h2>About me</h2>
+            <div>
+                <img src="img/laco.png" alt="laco">
+            </div>
+        </section>
+        
+        <section>
+            <img src="img/ng2-info.png" alt="laco">
+            <p>
+                <a href="https://ng2-info.github.io">ng2-info.github.io</a>
+            </p>
+        </section>
+        
+        <section>
+            <img src="img/slack.png" alt="">
+            <p>
+                <a href="https://ng-japan-invite.herokuapp.com">ng-japan-invite.herokuapp.com</a>
+            </p>
+        </section>
+ 
+        <section>
+            <h2>The Aim of Angular 2</h2>
+            <img src="img/ng2.png" alt="">
+        </section>
+        
+        <section>
+            <h2>Why Angular?</h2>
+        </section>
+
+        <section class="deck-slide" data-background-image="img/shield-large.svg">
+            <h2>Angular == Platform</h2>
+            <ul>
+                <li>Framework library</li>
+                <li>Browser/Web Worker/Electron/Native/...</li>
+                <li>Server Side Rendering</li>
+                <li>Tools</li>
+                <li>...</li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Using framework</h2>
+            <h3>Pros. <img src="img/kissing-face.png" alt="" height="60"></h3>
+            <ul>
+                <li>Easy to start</li>
+                <li>Write your app</li>
+                <li>Community</li>
+            </ul>
+            <h3>Cons. <img src="img/confused-face.png" alt="" height="60"></h3>
+            <ul>
+                <li>Framework specific code</li>
+                <li>Lock-in</li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h2>case 'Angular 2': </h2>
+            <p>Angular on the (Next) Web Standards <img src="img/rocket-emoji.png" alt="" height="60"></p>
+            <ul>
+                <li>ES2015 (Classes, Promises, Modules,...)</li>
+                <li>Decorators</li>
+                <li>Observables</li>
+                <li>...</li>
+            </ul>
+            <p>Angular &lt; <b>Web Standards</b></p>
+        </section>
+
+        <section>
+            <h2>Benefits of Angular 2</h2>
+            <img src="img/ok-face.png" alt="">
+        </section>
+
+        <section class="deck-slide">
+            <h2>Speed <img src="img/rocket-emoji.png" alt=""></h2>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Fast Loading</h2>
+            <p>Server-Side Rendering via <b><a href="https://github.com/angular/universal" target="_blank">Angular Universal</a></b></p>
+            <img src="img/universal.png" alt="" height="300">
+            <br>
+            <p>Angular 2 for Node.js</p>
+        </section>
+
+        <section>
+            <img src="img/universal-rendering.png" alt="">
+            <small><a href="https://www.youtube.com/watch?v=MtoHFDfi8FM" target="_blank">Full Stack Angular 2 – Jeff Whelpley and Patrick Stapleton - YouTube</a></small>
+        </section>
+
+        <section>
+            <img src="img/universal-rendering-graph.png" alt="">
+        </section>
+
+        <section class="deck-slide">
+            <h2>Rendering Performance</h2>
+            Angular 1 = <img src="img/turtle-emoji.png" height="80"><br>
+            <ul>
+                <li>dirty-checking</li>
+                <li>two-way bindings</li>
+                <li>$digest loop</li>
+            </ul>
+            <p></p>
+        </section>
+
+        <section>
+            <h2>Change Detection</h2>
+            <img src="img/Angular_2_Change_Detection_Explained.png" alt="">
+            <small><a href="http://blog.thoughtram.io//angular/2016/02/22/angular-2-change-detection-explained.html">thoughtram Blog</a></small><br>
+            <small><a href="https://github.com/laco0416/translations/tree/master/articles/angular-2-change-detection-explained" target="_blank">日本語訳</a></small>
+            <br>
+            <b>Strategy</b> for rendering
+        </section>
+
+        <section class="deck-slide">
+            <h2>What's Change Detection?</h2>
+            Model => View Projection <br>
+            <img src="img/cd-4.png" alt="">
+        </section>
+
+        <section class="deck-slide">
+            <h2>Check changes</h2>
+            <ul>
+                <li>Every component has own detector <img src="img/robot-emoji.png" height="60"></li>
+                <li>100000 checks / 10ms <img src="img/rocket-emoji.png" height="60"></li>
+                <li>Change Detectors Tree:</li>
+            </ul>
+            <br>
+            <img src="img/cd-tree-2.png" height="500">
+        </section>
+
+        <section class="deck-slide">
+            <h2>One-way checking</h2>
+            <img src="img/cd-tree-7.png" alt="">
+        </section>
+
+        <section class="deck-slide">
+            <h2>ChangeDetectionStrategy</h2>
+            <span><i>Should I update my view?</i></span>
+            <img src="img/cd-tree-8.png" alt="">
+        </section>
+
+        <section class="deck-slide">
+            <h2>Simple <img src="img/light-emoji.png" height="80"></h2>
+        </section>
+
+        <section class="deck-slide">
+            <h3>Angular 1 <img src="img/ng1.png" alt="" height="60"></h3>
+            <p style="font-family: 'Comic Sans MS',serif;">
+                ngClick, ngKeydown, ngKeyup, ngBlur, ngMaxLength, ngMinLength, ngMouseOver, ngMouseLeave, ngBind,
+                ngFocus, ...
+            </p>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Angular 2 <img src="img/ng2.png" alt="" height="80"></h2>
+            <p class="fragment">Properties: <code>&lt;input [value]="userName"></code></p>
+            <p class="fragment">Events: <code>&lt;button (click)="send($event)">...&lt;/button></code></p>
+            <p class="fragment">Two-way: <code>&lt;input [(ngModel)]="userName"></code></p>
+            <h3 class="fragment">New Syntax  <img src="img/heavy-black-heart-emoji.png" height="80"> Static tools</h3>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Static tools <img src="img/hammer-emoji.png" height="60"></h2>
+            <div>
+                <ul style="padding-left: 50px">
+                    <li>Compilers</li>
+                    <li>Linters</li>
+                    <li>IDEs</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="deck-slide">
+            <h2>"Analyzability"</h2>
+            <span>Angular 1</span>
+            <pre><code>&lt;my-directive
+    prop1="ctrl.someProp"
+    prop2="some text">
+&lt;/my-directive></code></pre>
+            <p>Expression? Text? <img src="img/hushed-face.png" height="60"></p>
+        </section>
+
+       <section class="deck-slide">
+            <h2>Angular 2</h2>
+            <pre><code>&lt;my-directive
+    [prop1]="someProp"
+    prop2="some text">
+&lt;/my-directive></code></pre>
+            <p>
+                <b>Static Analyzable <img src="img/kissing-face.png" height="60"></b>
+            </p>
+        </section>
+
+        <section class="deck-slide">
+            <h3>TypeScript <img src="img/shield-emoji.png" height="80"></h3>
+            <p>Types as API documents</p>
+            <ul>
+                <li>Compiler == Static code analyzer</li>
+                <li>Information from TypeScript</li>
+                <li>tslint</li>
+                <li>ng2lint</li>
+            </ul>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Cross Platform</h2>
+        </section>
+
+        <section class="deck-slide">
+            <h2>Write Once, Run <i>manywhere</i></h2>
+            <ul>
+                <li>Browser</li>
+                <li>WebWorker</li>
+                <li>Node.js (Universal)</li>
+                <li>Desktop (Electron)</li>
+                <li>Mobile (Ionic2)</li>
+                <li>Mobile Native (NativeScript/React Native)</li>
+            </ul>
+        </section>
+
+        <section>
+            <img src="img/render-layer.png" alt="">
+        </section>
+
+        <section class="deck-slide">
+            <h2>Summary</h2>
+            <p>Angular 2 aims...</p>
+            <ul>
+                <li>High Speed</li>
+                <li>Simple API</li>
+                <li>Cross Platform</li>
+            </ul>
+            <h3 class="fragment">Angular <img src="img/heavy-black-heart-emoji.png" height="60"> Web standards</h3>
+        </section>
+
+        <section class="deck-slide">
+            <h1 style="margin-top: 2em;">Thanks!</h1>
+            <div class="profile">
+                <img src="img/laco.png">
+                <p>
+                    <a href="https://twitter.com/laco0416">@laco0416</a><br>
+                </p>
+            </div>
+        </section>
+    </div>
+
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: false,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+            {
+                src: 'lib/js/classList.js', condition: function () {
+                return !document.body.classList;
+            }
+            },
+            {
+                src: 'plugin/markdown/marked.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src: 'plugin/markdown/markdown.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                hljs.initHighlightingOnLoad();
+            }
+            },
+            {src: 'plugin/zoom-js/zoom.js', async: true},
+            {src: 'plugin/notes/notes.js', async: true}
+        ]
+    });
+
+</script>
+
+</body>
+</html>
