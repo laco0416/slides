@@ -875,8 +875,9 @@ class MyComponent{}</code></pre>
     Reveal.initialize({
         controls: true,
         progress: true,
-        history: true,
+        history: location.search.includes('embed') ? false : true,
         center: true,
+        embedded: location.search.includes('embed'),
 
         transition: 'slide', // none/fade/slide/convex/concave/zoom
 
